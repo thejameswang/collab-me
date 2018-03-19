@@ -23,11 +23,29 @@ export default class Main extends React.Component {
     }
 
     _onBoldClick() {
-        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
+      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
     }
-
     _onItalicsClick() {
-        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'));
+      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'));
+    }
+    _onUnderlineClick() {
+      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'UNDERLINE'));
+    }
+    _onStrikethroughClick() {
+      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'STRIKETHROUGH'));
+    }
+    _onLeftAlignClick() {
+      this.onChange(RichUtils.toggleBlockType(this.state.editorState, 'STRIKETHROUGH'));
+    }
+    _onRightAlignClick() {
+      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNRIGHT'));
+    }
+    _onLeftAlignClick() {
+      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNLEFT'));
+    }
+    _onCenterAlignClick() {
+      console.log('hello')
+      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNCENTER'));
     }
 
     handleFontSizeChange(event) {
@@ -89,21 +107,21 @@ export default class Main extends React.Component {
                 <button className="btn btn-xs btn-default" title="italic" onClick={this._onItalicsClick.bind(this)}>
                     <i className="fa fa-italic"></i>
                 </button>
-                <button className="btn btn-xs btn-default" title="underline">
+                <button className="btn btn-xs btn-default" title="underline" onClick={this._onUnderlineClick.bind(this)}>
                     <i className="fa fa-underline"></i>
                 </button>
-                <button className="btn btn-xs btn-default" title="strikethrough">
+                <button className="btn btn-xs btn-default" title="strikethrough" onClick={this._onStrikethroughClick.bind(this)}>
                     <i className="fa fa-strikethrough"></i>
                 </button>
             </div>
             <div className='btn-group'>
-                <button className="btn btn-xs btn-default" title="left-align">
+                <button className="btn btn-xs btn-default" title="left-align" onClick={this._onLeftAlignClick.bind(this)}>
                     <i className="fa fa-align-left"></i>
                 </button>
-                <button className="btn btn-xs btn-default" title="center-align">
+                <button className="btn btn-xs btn-default" title="center-align" onClick={this._onCenterAlignClick.bind(this)}>
                     <i className="fa fa-align-justify"></i>
                 </button>
-                <button className="btn btn-xs btn-default" title="right-align">
+                <button className="btn btn-xs btn-default" title="right-align" onClick={this._onRightAlignClick.bind(this)}>
                     <i className="fa fa-align-right"></i>
                 </button>
             </div>
@@ -117,7 +135,7 @@ export default class Main extends React.Component {
             </div>
             <button className="btn btn-xs btn-default" title="custom">Custom</button>
             <div className="editor">
-                <Editor editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
+                <Editor customStyleMap={styleMap} editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
             </div>
             <p>
                 <button className="btn btn-xs btn-default" title="save">Save Changes</button>
@@ -125,3 +143,21 @@ export default class Main extends React.Component {
         </div>);
     }
 }
+
+const styleMap = {
+  'ALIGNRIGHT': {
+    textAlign: 'right',
+    display: 'inline-block',
+    width: '100%'
+  },
+  'ALIGNLEFT': {
+    textAlign: 'left',
+    display: 'inline-block',
+    width: '100%'
+  },
+  'ALIGNCENTER': {
+    textAlign: 'center',
+    display: 'inline-block',
+    width: '100%'
+  },
+};
