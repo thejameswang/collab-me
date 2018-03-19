@@ -1,10 +1,10 @@
 import React from 'react';
-import { Editor, EditorState } from 'draft-js';
+import Main from './components/draft.jsx'
 
 export default class App extends React.Component {
   render() {
     return (<div>
-      <h2>You're Dumb!</h2>
+      <Main/>
     </div>);
   }
 }
