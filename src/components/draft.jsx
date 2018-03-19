@@ -1,34 +1,13 @@
 import React from 'react';
-import {Editor, EditorState, RichUtils} from 'draft-js';
-// import '../stylesheets/styles.css';
-
-// function myBlockStyleFn(contentBlock) {
-//   const type = contentBlock.getType();
-//   if (type === 'blockquote') {
-//     return 'superFancyBlockquote';
-//   }
-// }
-
-
-// const getBlockStyle = (block) => {
-//   switch (block.getType()) {
-//       case 'left':
-//           return 'align-left';
-//       case 'center':
-//           return 'align-center';
-//       case 'right':
-//           return 'align-right';
-//       default:
-//           return null;
-//   }
-// }
-
+import {Editor, EditorState, RichUtils, Modifier} from 'draft-js';
 
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            editorState: EditorState.createEmpty()
+            editorState: EditorState.createEmpty(),
+            size: 12,
+            color: "red"
         };
         this.onChange = (editorState) => this.setState({editorState});
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
@@ -68,7 +47,15 @@ export default class Main extends React.Component {
       this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNCENTER'));
     }
 
-    // myFunction() {}
+    handleFontSizeChange(event) {
+        this.setState({size: event.target.value});
+        console.log("state is now", this.state);
+    }
+
+    handleFontColorChange(event) {
+        this.setState({color: event.target.value});
+        console.log("state is now", this.state);
+    }
 
     render() {
 
@@ -91,7 +78,7 @@ export default class Main extends React.Component {
             <p>
                 <div className='btn-group'>
                     <div className="dropdown">Font Color:
-                    <select className="btn btn-xs btn-default dropdown-toggle" name="color">
+                    <select value={this.state.value} onChange={this.handleFontColorChange.bind(this)} className="btn btn-xs btn-default dropdown-toggle" name="color">
                         <option className="dropdown-item" value="red">Red</option>
                         <option className="dropdown-item" value="orange">Orange</option>
                         <option className="dropdown-item" value="yellow">Yellow</option>
@@ -101,7 +88,7 @@ export default class Main extends React.Component {
                     </select>
                 </div>
                 <div className="dropdown">Font Size:
-                <select className="btn btn-xs btn-default dropdown-toggle" name="color">
+                <select value={this.state.value} onChange={this.handleFontSizeChange.bind(this)} className="btn btn-xs btn-default dropdown-toggle" name="color">
                     <option className="dropdown-item" value="16">16</option>
                     <option className="dropdown-item" value="18">18</option>
                     <option className="dropdown-item" value="22">22</option>
