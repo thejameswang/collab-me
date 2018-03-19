@@ -41,8 +41,22 @@ export default class Main extends React.Component {
           <button className="btn btn-xs btn-default" title="italic" onClick={this._onItalicsClick.bind(this)}><i className="fa fa-italic"></i></button>
           <button className="btn btn-xs btn-default" title="underline"><i className="fa fa-underline"></i></button>
           <button className="btn btn-xs btn-default" title="strikethrough"><i className="fa fa-strikethrough"></i></button>
-          <button className="btn btn-xs btn-default" title="custom">Custom</button>
       </div>
+      <div className='btn-group'>
+          <button className="btn btn-xs btn-default" title="font-color"><i className="fa fa-paint-brush"></i></button>
+          <button className="btn btn-xs btn-default" title="font-size"><i className="fa fa-font"></i></button>
+      </div>
+      <div className='btn-group'>
+          <button className="btn btn-xs btn-default" title="left-align"><i className="fa fa-align-left"></i></button>
+          <button className="btn btn-xs btn-default" title="center-align"><i className="fa fa-align-justify"></i></button>
+          <button className="btn btn-xs btn-default" title="right-align"><i className="fa fa-align-right"></i></button>
+      </div>
+      <div className='btn-group'>
+          <button className="btn btn-xs btn-default" title="bulleted-list"><i className="fa fa-list-ul"></i></button>
+          <button className="btn btn-xs btn-default" title="numbered-list"><i className="fa fa-list-ol"></i></button>
+      </div>
+
+          <button className="btn btn-xs btn-default" title="custom">Custom</button>
       <div className="editor">
           <Editor editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
       </div>
