@@ -30,17 +30,25 @@ export default class Main extends React.Component {
   render() {
 
     return (<div className="container">
+        <p>
+            <button className="btn btn-xs btn-default" title="back"><i className="fa fa-angle-left"></i> Go Back</button>
+        </p>
         <div className="title">
           <h3>Collab.Me</h3>
       </div>
       <div className='btn-group'>
           <button className="btn btn-xs btn-default" title="bold" onClick={this._onBoldClick.bind(this)}><i className="fa fa-bold"></i></button>
-          <button onClick={this._onItalicsClick.bind(this)}>Italics</button>
+          <button className="btn btn-xs btn-default" title="italic" onClick={this._onItalicsClick.bind(this)}><i className="fa fa-italic"></i></button>
+          <button className="btn btn-xs btn-default" title="underline"><i className="fa fa-underline"></i></button>
+          <button className="btn btn-xs btn-default" title="strikethrough"><i className="fa fa-strikethrough"></i></button>
+          <button className="btn btn-xs btn-default" title="custom">Custom</button>
       </div>
       <div className="editor">
-
           <Editor editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
       </div>
+      <p>
+          <button className="btn btn-xs btn-default" title="save">Save Changes</button>
+      </p>
     </div>);
   }
 }
