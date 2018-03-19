@@ -8,6 +8,13 @@ body {
     margin: 5% 0;
 }
 
+.align-center {
+  color: #999;
+  font-family: 'Hoefler Text', Georgia, serif;
+  font-style: italic;
+  text-align: center;
+}
+
 .editor {
     resize: vertical;
     overflow: auto;
