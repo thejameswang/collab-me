@@ -17,9 +17,16 @@
     import React from 'react';
     import ReactDOM from 'react-dom';
     import {AppContainer} from 'react-hot-loader';
+    import {createStore} from 'redux';
+    import {Provider} from 'react-redux';
+    import reducer from './backend/reducers/index';
+
+    let store = createStore(reducer);
+    window.store = store;
+
     const render = () => {
         const App = require('./app').default;
-    ReactDOM.render(<AppContainer><App /></AppContainer>, document.getElementById('App'));
+    ReactDOM.render(<AppContainer><Provider store={store}><App /></Provider></AppContainer>, document.getElementById('App'));
 }
 
 render();
