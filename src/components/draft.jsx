@@ -24,10 +24,14 @@ export default class Main extends React.Component {
   }
 
   render() {
-    return (<div className="">
-      <h2>You're Dumb!</h2>
-      <button onClick={this._onBoldClick.bind(this)}>Bold</button>
-      <div className="DottedBox">
+    return (<div className="container">
+        <div className="title">
+          <h3>Collab.Me</h3>
+      </div>
+      <div className='btn-group'>
+          <button className="btn btn-xs btn-default" title="bold" onClick={this._onBoldClick.bind(this)}><i className="fa fa-bold"></i></button>
+      </div>
+      <div className="editor">
           <Editor editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
       </div>
     </div>);
