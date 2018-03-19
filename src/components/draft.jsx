@@ -35,7 +35,11 @@ export default class Main extends React.Component {
         </p>
         <div className="title">
           <h3>Collab.Me</h3>
-      </div>
+        </div>
+        <div>
+            <h5>Document Name</h5>
+            <p>Shareable ID: #########<button className="btn btn-xs btn-default" title="copy"><i className="fa fa-copy"></i> Copy to Clipboard</button></p>
+        </div>
       <div className='btn-group'>
           <button className="btn btn-xs btn-default" title="bold" onClick={this._onBoldClick.bind(this)}><i className="fa fa-bold"></i></button>
           <button className="btn btn-xs btn-default" title="italic" onClick={this._onItalicsClick.bind(this)}><i className="fa fa-italic"></i></button>
@@ -55,7 +59,6 @@ export default class Main extends React.Component {
           <button className="btn btn-xs btn-default" title="bulleted-list"><i className="fa fa-list-ul"></i></button>
           <button className="btn btn-xs btn-default" title="numbered-list"><i className="fa fa-list-ol"></i></button>
       </div>
-
           <button className="btn btn-xs btn-default" title="custom">Custom</button>
       <div className="editor">
           <Editor editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
