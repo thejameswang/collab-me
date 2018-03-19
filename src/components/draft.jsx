@@ -65,7 +65,6 @@ export default class Main extends React.Component {
       this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNLEFT'));
     }
     _onCenterAlignClick() {
-      console.log('hello')
       this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNCENTER'));
     }
 
