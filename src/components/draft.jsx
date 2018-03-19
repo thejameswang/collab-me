@@ -23,10 +23,15 @@ export default class Main extends React.Component {
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   }
 
+  _onItalicsClick() {
+    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'));
+  }
+
   render() {
     return (<div className="">
       <h2>You're Dumb!</h2>
       <button onClick={this._onBoldClick.bind(this)}>Bold</button>
+      <button onClick={this._onItalicsClick.bind(this)}>Italics</button>
       <div className="DottedBox">
           <Editor editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
       </div>
