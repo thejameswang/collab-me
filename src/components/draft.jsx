@@ -1,5 +1,5 @@
 import React from 'react';
-import { Editor, EditorState, RichUtils} from 'draft-js';
+import {Editor, EditorState, RichUtils} from 'draft-js';
 // import '../stylesheets/styles.css';
 
 // function myBlockStyleFn(contentBlock) {
@@ -25,21 +25,24 @@ import { Editor, EditorState, RichUtils} from 'draft-js';
 
 
 export default class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {editorState: EditorState.createEmpty()};
-    this.onChange = (editorState) => this.setState({editorState});
-    this.handleKeyCommand = this.handleKeyCommand.bind(this);
-  }
-
-  handleKeyCommand(command, editorState) {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      this.onChange(newState);
-      return 'handled';
+    constructor(props) {
+        super(props);
+        this.state = {
+            editorState: EditorState.createEmpty()
+        };
+        this.onChange = (editorState) => this.setState({editorState});
+        this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
-    return 'not-handled';
-  }
+
+    handleKeyCommand(command, editorState) {
+        const newState = RichUtils.handleKeyCommand(editorState, command);
+        if (newState) {
+            this.onChange(newState);
+            return 'handled';
+        }
+        return 'not-handled';
+    }
+
 
 
   _onBoldClick() {
@@ -109,6 +112,7 @@ export default class Main extends React.Component {
       </p>
     </div>);
   }
+
 }
 
 const styleMap = {
