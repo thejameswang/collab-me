@@ -1,6 +1,5 @@
 import React from 'react';
-import {Editor, EditorState, RichUtils} from 'draft-js';
-// import '../stylesheets/styles.css';
+import {Editor, EditorState, RichUtils, Modifier} from 'draft-js';
 
 export default class Main extends React.Component {
     constructor(props) {
