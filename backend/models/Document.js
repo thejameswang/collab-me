@@ -4,11 +4,11 @@ const documentSchema = new mongoose.Schema({
     title: String,
     password: String,
     owner: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
     collaborators: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }]
 });
