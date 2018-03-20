@@ -4,7 +4,7 @@ import { enableLiveReload } from 'electron-compile';
 var path = require('path');
 var fs = require('fs');
 var mongoose = require('mongoose');
-const dbRoutes = require('./backend/routes/databaseAccess.js');
+const dbRoutes = require('../backend/routes/databaseAccess.js');
 
 
 // Keep a global reference of the window object, if you don't, the window will

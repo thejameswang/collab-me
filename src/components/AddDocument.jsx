@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom'
-import {addDocument} from '../backend/actions/index'
+import {addDocument} from '../actions/index'
 
 const dbUrl = "/db";
 

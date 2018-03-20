@@ -44,4 +44,5 @@ export default function databaseAccess(app) {
       res.send({documents: response});
     })
   });
+
 }
