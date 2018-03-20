@@ -6,9 +6,12 @@ import crypto from 'crypto'
 
 
 export default function initializeAuth(app) {
+
   app.use(session({
     secret: process.env.SECRET,
-    store: new MongoStore({mongooseConnection: require('mongoose').connection})
+    store: new MongoStore({mongooseConnection: require('mongoose').connection}),
+    resave: true,
+    saveUninitialized: true
   }))
 
   app.use(passport.initialize());
@@ -16,6 +19,7 @@ export default function initializeAuth(app) {
 
   // PASSPORT LOCALSTRATEGY HERE
   passport.use(new LocalStrategy(function(username, password, done) {
+      console.log("lalala");
     User.find({username:username}, function(err, user) {
       // console.log(user)
       if(user[0].password===hashPassword(password)) {
@@ -23,10 +27,11 @@ export default function initializeAuth(app) {
       } else {
         done(null, false);
       }
-    })
+  });
     //Look throuhg the passwords.plan/hashed json file
     // for the given username and password
-  }))
+}));
+
   passport.serializeUser(function(user, done) {
     done(null, user._id);
   })
@@ -37,7 +42,6 @@ export default function initializeAuth(app) {
         res.status(500).send("ID not found")
         done(null, false)
       } else {
-        // console.log('hello')
         console.log(result)
         return done(null, result)
       }

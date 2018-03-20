@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-const dbUrl = "/db";
 
 let Signup = () => {
     let input = {
@@ -10,20 +9,23 @@ let Signup = () => {
 
     let handleSubmit = (e) => {
         e.preventDefault();
+
         if (input) {
-            axios.post(dbUrl + '/signup', {
+            axios.post('http://localhost:3000/register', {
                 username: input.username.value,
                 password: input.password.value
-            }).then(function(response) {
-                console.log("logged in!");
+            })
+            .then(function(response) {
+                console.log(response);
+                input = {
+                    username: '',
+                    password: ''
+                };
             }).catch(function(error) {
                 console.log(error);
             });
 
-            input = {
-                username: '',
-                password: ''
-            };
+
         }
     }
 
@@ -43,7 +45,7 @@ let Signup = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label className="form-control-label">USERNAME</label>
-                                <input type="text" className="form-control" id="username" ref={text => input.email = text}/>
+                                <input type="text" className="form-control" id="username" ref={text => input.username = text}/>
                             </div>
                             <div className="form-group">
                                 <label className="form-control-label">PASSWORD</label>
