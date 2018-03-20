@@ -5,7 +5,7 @@ let connect = process.env.MONGODB_URI;
 mongoose.connect(connect);
 
 const documentSchema = new mongoose.Schema({
-    title: String,
+    name: String,
     password: String,
     owner: {
         type: mongoose.Schema.Types.ObjectId,

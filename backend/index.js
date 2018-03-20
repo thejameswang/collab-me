@@ -20,8 +20,14 @@ databaseAccess(app);
 initializeAuth(app, passport);
 
 app.post('/login', passport.authenticate('local'), function(req, res) {
-
-	res.json({ success: true, message: "logged in!" });
+	// res.json({ success: true, message: "logged in!" });
+ User.findOne({username: req.body.username})
+ .catch(error => {
+   res.send(error);
+ }).then(response => {
+     console.log("found user: " + response);
+   res.send(response);
+ });
 
 // POST: '/login'
 // If login successful --> redirect to homepage
@@ -46,16 +52,16 @@ app.post('/login', passport.authenticate('local'), function(req, res) {
 	// })(req, res, next)
 });
 
-app.get("/logout", function(req, res,next) {
-  req.logout()
-	return res.json({ success: true })
+app.get("/logout", function(req, res) {
+    req.logout();
+    return res.json({ success: true });
 })
 
 //helper functions
 function hashPassword(password) {
   var hash = crypto.createHash('sha256');
-  hash.update(password)
-  return hash.digest('hex')
+  hash.update(password);
+  return hash.digest('hex');
 }
 
 
@@ -64,8 +70,6 @@ app.post('/register', function(req, res, next) {
 
 
   User.findOne({ username: req.body.username }, function (err, user) {
-	  console.log(err);
-	  console.log(user);
   // is email address already in use?
   if (user) {
   	res.json({ success: false, message: "Email already in use" })
@@ -77,7 +81,6 @@ app.post('/register', function(req, res, next) {
 
   	User.create({username:req.body.username, password: hashedPassword }, (err) => {
   		if (err) {
-  			console.error(err)
   			res.json({ success: false })
   			return
   		}

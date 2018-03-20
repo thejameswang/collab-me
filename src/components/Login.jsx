@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link, Route} from 'react-router-dom';
 import Documents from './Documents.jsx';
+import {setUser} from '../actions/index'
 
 class Login extends React.Component {
     constructor(props) {
@@ -26,13 +27,17 @@ class Login extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         let self = this;
-        const body = {
+        const user = {
             username: this.state.username,
             password: this.state.password
         }
-        axios.post('http://localhost:3000/login', body).then(function(response) {
+        axios.post('http://localhost:3000/login', user)
+        .then(function(response) {
+            self.props.getUser(response.data);
+        }).then(function(response) {
             self.props.history.push('/documents');
-        }).catch(function(error) {
+        })
+        .catch(function(error) {
             self.props.history.push('/signup');
         });
 
@@ -74,5 +79,24 @@ class Login extends React.Component {
         </div>);
     }
 };
+
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    };
+  }
+
+  const mapDispatchToProps = (dispatch) => {
+    return {
+        getUser: (user) => {
+        dispatch(setUser(user))
+    }
+    }
+  }
+
+  // Promote App from a component to a container
+  Login = connect(mapStateToProps, mapDispatchToProps)(Login);
+
 
 export default Login;

@@ -22,26 +22,29 @@ export default function databaseAccess(app) {
 
   // Enables the end user to create a new todo item in the database
   app.post('/add', (req, res) => {
+      console.log(req.body);
     const newDocument = new Document({
       name: req.body.name,
-      password: req.body.password,
-      owner: req.body.owner,
-      collaborators: req.body.collaborators
+      owner: req.body.owner._id
+    //   collaborators: req.body.collaborators
     });
 
     newDocument.save().then(response => {
-      res.send(response);
+        res.send(response);
     }).catch(error => {
-      res.send(error);
+        res.send(error);
     })
   });
 
   // Enables the end user to grab all todo items in the database
   app.get('/documents', (req, res) => {
-    Document.find().catch(error => {
+    Document.find({owner: req.query.id})
+    .then(response => {
+        console.log("docs we found: " + response);
+      res.send(response);
+    })
+    .catch(error => {
       res.send(error);
-    }).then(response => {
-      res.send({documents: response});
     })
   });
 

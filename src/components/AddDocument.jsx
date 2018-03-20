@@ -22,18 +22,13 @@ class AddDocument extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.createDocument(this.state.name, this.state.password);
-
         let self = this;
-        const state = this.state;
-
-        axios.post(dbUrl + '/document', {
-            name: state.name
-            // password: state.description
-            // owner: {},
+        axios.post('http://localhost:3000/add', {
+            name: self.state.name,
+            owner: self.props.user
             // collaborators: {}
         }).then(function(response) {
-            console.log(response);
+            self.props.createDocument(response.data);
         }).catch(function(error) {
             console.log(error);
         });
@@ -80,12 +75,8 @@ const mapStateToProps = (state) => {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-        createDocument: (doc, user) => {
-        dispatch(addDocument(doc, user))
-    },
-        getDocuments: (user) => {
-        dispatch(fetchDocuments(user))
-    }
+        createDocument: (doc) => {
+        dispatch(addDocument(doc))}
     }
   }
 
