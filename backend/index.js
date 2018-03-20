@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import initializeAuth from './routes/auth'
 import databaseAccess from './routes/databaseAccess'
 import User from './models/User';
+import crypto from 'crypto';
 
 var app = express();
 
@@ -16,27 +17,33 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(process.env.MONGODB_URI);
 
 databaseAccess(app);
-initializeAuth(app);
+initializeAuth(app, passport);
 
+app.post('/login', passport.authenticate('local'), function(req, res) {
 
-//ROUTES ARE HERE
+	res.json({ success: true, message: "logged in!" });
 
-app.post('/login', function(req, res, next) {
-	// Do email and password validation for the server
-	passport.authenticate("local", function(err, user, info) {
-
-		if(err) return next(err)
-		if(!user) {
-			return res.json({ success: false, message: info.message })
-		}
-
-		req.logIn(user, loginErr => {
-			if(loginErr) {
-				return res.json({ success: false, message: loginErr })
-			}
-			return res.json({ success: true, message: "authentication succeeded" })
-		})
-	})(req, res, next)
+// POST: '/login'
+// If login successful --> redirect to homepage
+// Else --> redirect back to login
+	// // Do email and password validation for the server
+	// passport.authenticate("local", function(err, user, info) {
+		// console.log(user);
+		// console.log(err);
+		// console.log(info);
+		// if(err) return next(err)
+		// if(!user) {
+		// 	return res.json({ success: false, message: info.message })
+		// }
+		//
+		// req.logIn(user, loginErr => {
+		// 	if(loginErr) {
+		// 		return res.json({ success: false, message: loginErr })
+		// 	}
+		// 	console.log("authentication succeeds");
+		// 	return res.json({ success: true, message: "authentication succeeded" })
+		// })
+	// })(req, res, next)
 });
 
 app.get("/logout", function(req, res,next) {
@@ -44,7 +51,18 @@ app.get("/logout", function(req, res,next) {
 	return res.json({ success: true })
 })
 
+//helper functions
+function hashPassword(password) {
+  var hash = crypto.createHash('sha256');
+  hash.update(password)
+  return hash.digest('hex')
+}
+
+
 app.post('/register', function(req, res, next) {
+
+
+
   User.findOne({ username: req.body.username }, function (err, user) {
 	  console.log(err);
 	  console.log(user);
@@ -55,7 +73,9 @@ app.post('/register', function(req, res, next) {
   }
   // go ahead and create the new user
   else {
-  	User.create({username:req.body.username, password: req.body.password }, (err) => {
+	  var hashedPassword = hashPassword(req.body.password);
+
+  	User.create({username:req.body.username, password: hashedPassword }, (err) => {
   		if (err) {
   			console.error(err)
   			res.json({ success: false })

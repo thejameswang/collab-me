@@ -12,7 +12,7 @@ import {Link} from 'react-router-dom';
 
         this.state = {
             loggedIn: false,
-            email: '',
+            username: '',
             password: ''
         }
     }
@@ -29,6 +29,20 @@ import {Link} from 'react-router-dom';
 
     handleSubmit(e){
         e.preventDefault();
+        const body = {
+            username: this.state.username,
+            password: this.state.password
+        }
+        console.log(body)
+        axios.post('http://localhost:3000/login', body)
+        .then(function(response) {
+            console.log(response);
+            console.log("logged in!")
+            console.log("response HERE", response);
+        }).catch(function(error) {
+            console.log(error);
+        });
+
     }
 
     render() {
@@ -44,8 +58,8 @@ import {Link} from 'react-router-dom';
                             <div className="col-lg-12">
                                 <form onSubmit={this.handleSubmit.bind(this)}>
                                     <div className="form-group">
-                                        <label className="form-control-label">EMAIL</label>
-                                        <input type="text" name="email" className="form-control" id="email" onChange={this.handleInputChange.bind(this)} value={this.state.email} />
+                                        <label className="form-control-label">Username</label>
+                                        <input type="text" name="username" className="form-control" id="username" onChange={this.handleInputChange.bind(this)} value={this.state.username} />
                                     </div>
                                     <div className="form-group">
                                         <label className="form-control-label">PASSWORD</label>
