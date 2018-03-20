@@ -2,6 +2,8 @@ import React from 'react';
 import {Editor, convertToRaw,convertFromRaw, EditorState, RichUtils, Modifier,ContentState} from 'draft-js';
 import {Link, Route} from 'react-router-dom';
 import axios from 'axios';
+import socketIOClient from "socket.io-client";
+
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -10,11 +12,39 @@ export default class Main extends React.Component {
         this.state = {
             editorState:  EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent))),
             size: 12,
-            color: "red"
+            color: "red",
+            backend: '',
+            client: '',
+            response: false,
+            endpoint: "http://10.2.105.66:8000"
         };
         this.onChange = (editorState) => this.setState({editorState});
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
+
+    componentDidMount() {
+        const { endpoint } = this.state;
+        const socket = socketIOClient(endpoint);
+        socket.emit('text', { text: "sending you this text data fron the client"});
+        socket.on('text', (data) => this.handleRecievedText(data));
+        socket.on('newUser', (data) => this.updateText(data));
+    }
+
+    //  Replace the editor with the current content of the editor
+    // from the web-sockets whenever a new user connects to the socket
+    updateText(data) {
+        this.setState({client: data.text});
+        console.log("Getting the following from the client: " + data.text);
+    }
+
+    // Called whenever the backend/server sends back a package called ‘text’
+    // Updates the text that is found in the editor and is updating the contents of the text object
+    handleRecievedText(data) {
+        this.setState({backend: data.text});
+        console.log("Getting the following from the backend: " + data.text);
+        console.log(data);
+    }
+
 
     handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -94,6 +124,8 @@ export default class Main extends React.Component {
                         Copy to Clipboard</button>
                 </p>
             </div>
+            <div className="container">Client: {this.state.client}</div>
+            <div className="container">Backend: {this.state.backend}</div>
             <p>
                 <div className='btn-group'>
                     <div className="dropdown">Font Color:

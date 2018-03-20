@@ -7,8 +7,13 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import initializeAuth from './routes/auth'
 import databaseAccess from './routes/databaseAccess'
+import socketFile from './routes/socket'
 import User from './models/User';
 import crypto from 'crypto';
+const http = require("http");
+const socketIo = require("socket.io");
+
+
 
 var app = express();
 
@@ -18,6 +23,8 @@ mongoose.connect(process.env.MONGODB_URI);
 
 databaseAccess(app);
 initializeAuth(app, passport);
+socketFile(app);
+
 
 app.post('/login', passport.authenticate('local'), function(req, res) {
     // res.json({ success: true, message: "logged in!" });
@@ -97,6 +104,12 @@ app.get('/', function(req, res) {
         res.redirect('/login')
     }
 });
+
+
+
+// Sockets
+
+
 
 console.log('Express started. Listening on port', process.env.PORT || 3000);
 app.listen(process.env.PORT || 3000);
