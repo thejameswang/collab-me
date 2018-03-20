@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import initializeAuth from './routes/auth'
-// import databaseAccess from './routes/databaseAccess'
+import databaseAccess from './routes/databaseAccess'
 
 var app = express();
 
