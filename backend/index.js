@@ -16,6 +16,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 databaseAccess(app);
 initializeAuth(app);
 
+
+//ROUTES ARE HERE
+app.post('/login', passport.authenticate('local', { successRedirect: '/',
+                                                    failureRedirect: '/login' }));
+
+app.get('/', function(req,res) {
+  console.log(req.user)
+  // console.log(req)
+
+  if(req.user) {
+    res.render('index', {
+      user: req.user
+    });
+  } else {
+    res.redirect('/login')
+  }
+});
+
 // All of our routes are in routes.js
 // var routes = require('./routes');
 // app.use('/', routes);
