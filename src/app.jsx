@@ -6,7 +6,7 @@ import ViewShared from './components/ViewShared.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
 import Navbar from './components/Navbar.jsx';
-import {HashRouter, Route, Switch} from 'react-router-dom';
+import {HashRouter, Route} from 'react-router-dom';
 
 export default class App extends React.Component {
 
@@ -15,6 +15,8 @@ export default class App extends React.Component {
             <div>
                 <Route path="/" exact component={Login}/>
                 <Route path="/signup" exact component={Signup}/>
+                <Route path="/documents" exact component={Documents}/>
+                <Route path="/newdocument" exact component={AddDocument}/>
             </div>
         </HashRouter>);
     }
