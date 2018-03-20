@@ -1,11 +1,14 @@
 import React from 'react';
-import {Editor, EditorState, RichUtils, Modifier} from 'draft-js';
+import {Editor, convertToRaw,convertFromRaw, EditorState, RichUtils, Modifier,ContentState} from 'draft-js';
+import {Link, Route} from 'react-router-dom';
+import axios from 'axios';
 
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            editorState: EditorState.createEmpty(),
+            editorState:  EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent))),
             size: 12,
             color: "red"
         };
@@ -57,13 +60,29 @@ export default class Main extends React.Component {
         console.log("state is now", this.state);
     }
 
+    saveDoc() {
+        console.log(this.props.location.state.current);
+        let currentContent = convertToRaw(this.state.editorState.getCurrentContent());
+        let self = this;
+        axios.get('http://localhost:3000/update', {
+            params: {
+                id: self.props.location.state.current._id,
+                currentContent: currentContent
+            }
+        }).then(function(response) {
+            console.log(response);
+        }).catch(function(error) {
+            console.log(error);
+        });
+        // Make update axios call with new content using id
+
+    }
+
     render() {
 
         return (<div className="container">
             <p>
-                <button className="btn btn-xs btn-default" title="back">
-                    <i className="fa fa-angle-left"></i>
-                    Go Back</button>
+                <Link  to={{ pathname: '/documents'}} className="btn btn-xs btn-default">Go Back</Link>
             </p>
             <div className="title">
                 <h3>Collab.Me</h3>
@@ -137,7 +156,7 @@ export default class Main extends React.Component {
                 <Editor customStyleMap={styleMap} editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
             </div>
             <p>
-                <button className="btn btn-xs btn-default" title="save">Save Changes</button>
+                <button onClick={this.saveDoc.bind(this)} className="btn btn-xs btn-default" title="save">Save Changes</button>
             </p>
         </div>);
     }

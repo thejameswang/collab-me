@@ -47,7 +47,7 @@ class Documents extends React.Component {
             <ul>
                 {
                     this.props.documents.length > 0
-                        ? this.props.documents.map((doc) => <Document key={doc.id} doc={doc.name}/>)
+                        ? this.props.documents.map((doc) => <Document key={doc.id} doc={doc}/>)
                         : ''
                 }
             </ul>
@@ -57,7 +57,10 @@ class Documents extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {documents: state.documents, user: state.user};
+    return {
+        documents: state.documents,
+        user: state.user
+    };
 }
 
 // mapStateToProps is here

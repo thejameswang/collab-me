@@ -16,3 +16,7 @@ export function setUser(user) {
 export function deleteUser(user) {
     return {type: 'DELETE_USER', user};
 }
+
+export function currentDoc(current) {
+    return {type: 'CURRENT_DOC', current};
+}

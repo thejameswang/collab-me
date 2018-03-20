@@ -14,7 +14,8 @@ const documentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }],
-    content: String
+    content: String,
+    rawContent: {}
 });
 
 const Document = mongoose.model('Document', documentSchema);

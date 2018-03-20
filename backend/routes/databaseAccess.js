@@ -43,4 +43,15 @@ export default function databaseAccess(app) {
         })
     });
 
+    app.get('/update', (req, res) => {
+        Document.update({ _id: req.query.id },
+            { $set: { rawContent: req.query.currentContent }})
+            .then(response => {
+                console.log(response);
+                res.send(response);
+            }).catch(error => {
+                res.send(error);
+            })
+    });
+
 }
