@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
-let connect = process.env.MONGODB_URI;
-mongoose.connect(connect);
-
 const userSchema = new mongoose.Schema({
-    email: {
+    username: {
         type: String,
         required: true
       },
