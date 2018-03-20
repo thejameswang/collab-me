@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 const dbUrl = "/db";
 
-let Signup = ({}) => {
+let Signup = () => {
     let input = {
         username: '',
         password: ''
@@ -35,7 +35,7 @@ let Signup = ({}) => {
                     <i className="fa fa-key" aria-hidden="true"></i>
                 </div>
                 <div className="col-lg-12">
-                    COLLAB.ME
+                    Sign Up
                 </div>
 
                 <div className="col-lg-12">
@@ -52,7 +52,7 @@ let Signup = ({}) => {
                             <div className="col-lg-12">
                                 <div className="col-lg-6"></div>
                                 <div className="col-lg-6">
-                                    <button type="submit" className="btn btn-primary">LOGIN</button>
+                                    <button type="submit" className="btn btn-xs btn-default">Register</button>
                                 </div>
                             </div>
                         </form>

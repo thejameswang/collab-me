@@ -3,6 +3,8 @@ import axios from 'axios';
 const dbUrl = "/db";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
+
 
  class Login extends React.Component {
     constructor(props) {
@@ -34,15 +36,12 @@ import PropTypes from 'prop-types';
             <div className="container">
                 <div className="row">
                     <div className="col-lg-3 col-md-2"></div>
-                    <div className="col-lg-6 col-md-8 login-box">
-                        <div className="col-lg-12 login-key">
-                            <i className="fa fa-key" aria-hidden="true"></i>
+                    <div className="col-lg-6 col-md-8">
+                        <div className="col-lg-12">
+                            COLLAB.ME
                         </div>
-                        <div className="col-lg-12 login-title">
-                            HACKMATE
-                        </div>
-                        <div className="col-lg-12 login-form">
-                            <div className="col-lg-12 login-form">
+                        <div className="col-lg-12">
+                            <div className="col-lg-12">
                                 <form onSubmit={this.handleSubmit.bind(this)}>
                                     <div className="form-group">
                                         <label className="form-control-label">EMAIL</label>
@@ -53,14 +52,15 @@ import PropTypes from 'prop-types';
                                         <input type="password" name="password" className="form-control" id="password" onChange={this.handleInputChange.bind(this)} value={this.state.password} />
                                     </div>
 
-                                    <div className="col-lg-12 loginbttm">
-                                        <div className="col-lg-6 login-btm login-text"></div>
-                                        <div className="col-lg-6 login-btm login-button">
-                                            <button type="submit" className="btn btn-outline-primary">LOGIN</button>
+                                    <div className="col-lg-12">
+                                        <div className="col-lg-6"></div>
+                                        <div className="col-lg-6">
+                                            <button type="submit" className="btn btn-xs btn-default">LOGIN</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
+                            <Link to="/signup" className="btn btn-xs btn-default">Signup</Link>
                         </div>
                     <div className="col-lg-3 col-md-2"></div>
                 </div>
