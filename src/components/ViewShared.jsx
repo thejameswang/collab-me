@@ -2,15 +2,14 @@ import React from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom'
-import {addDocument} from '../backend/actions/index'
 
 const dbUrl = "/db";
 
-class AddDocument extends React.Component {
+class ViewShared extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: ''
+            docId: ''
         };
     }
 
@@ -22,21 +21,21 @@ class AddDocument extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.createDocument(this.state.name, this.state.password);
-
-        let self = this;
-        const state = this.state;
-
-        axios.post(dbUrl + '/document', {
-            name: state.name
-            // password: state.description
-            // owner: {},
-            // collaborators: {}
-        }).then(function(response) {
-            console.log(response);
-        }).catch(function(error) {
-            console.log(error);
-        });
+        // this.props.createDocument(this.state.name, this.state.password);
+        //
+        // let self = this;
+        // const state = this.state;
+        //
+        // axios.post(dbUrl + '/document', {
+        //     name: state.name,
+        //     password: state.description
+        //     // owner: {},
+        //     // collaborators: {}
+        // }).then(function(response) {
+        //     console.log(response);
+        // }).catch(function(error) {
+        //     console.log(error);
+        // });
 
     }
 
@@ -46,19 +45,19 @@ class AddDocument extends React.Component {
                     <div className="col-lg-3 col-md-2"></div>
                     <div className="col-lg-6 col-md-8">
                         <div className="col-lg-12">
-                            <h5>Create New Document</h5>
+                            <h5>Collaborate on Document</h5>
                         </div>
                         <div className="col-lg-12">
                             <div className="col-lg-12">
                                 <form onSubmit={this.handleSubmit.bind(this)}>
                                     <div className="form-group">
-                                        <label className="form-control-label">Name:</label>
-                                        <input type="text" name="name" className="form-control" value={this.state.name} onChange={this.handleInputChange.bind(this)}/>
+                                        <label className="form-control-label">Enter Shared Document ID:</label>
+                                        <input type="text" name="docId" className="form-control" value={this.state.docId} onChange={this.handleInputChange.bind(this)}/>
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="col-lg-6"></div>
                                         <div className="col-lg-6">
-                                            <button type="submit" className="btn btn-xs btn-default">Create</button>
+                                            <button type="submit" className="btn btn-xs btn-default">Collab</button>
                                         </div>
                                     </div>
                                 </form>
@@ -71,25 +70,4 @@ class AddDocument extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        documents: state.documents,
-        user: state.user
-    };
-  }
-
-  const mapDispatchToProps = (dispatch) => {
-    return {
-        createDocument: (doc, user) => {
-        dispatch(addDocument(doc, user))
-    },
-        getDocuments: (user) => {
-        dispatch(fetchDocuments(user))
-    }
-    }
-  }
-
-  // Promote App from a component to a container
-  AddDocument = connect(mapStateToProps, mapDispatchToProps)(AddDocument);
-
-  export default AddDocument;
+export default ViewShared;

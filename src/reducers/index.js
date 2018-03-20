@@ -12,10 +12,10 @@ const reducer = (state = [], action) => {
 
       // create the todo from the action object
       const newDoc = {
-        name: action.name,
-        password: action.password,
-        owner: {},
-        collaborators: {}
+        name: action.name
+        // password: action.password,
+        // owner: {},
+        // collaborators: {}
       };
 
       // okay to mutate our own copy

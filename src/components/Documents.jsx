@@ -14,7 +14,7 @@ export default class Documents extends React.Component {
     render() {
 
         return (<div className="container">
-            Documents go here
+            <h5>List of Documents:</h5>
             <ul>
                 {this.state.documents.map((doc) => <Document doc={doc}/>)}
             </ul>
