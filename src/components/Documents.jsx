@@ -15,24 +15,26 @@ class Documents extends React.Component {
 
     componentWillMount() {
         let self = this;
-        axios.get('http://localhost:3000/documents',{ params: { id: self.props.user._id}
+        axios.get('http://localhost:3000/documents', {
+            params: {
+                id: self.props.user._id
+            }
         }).then(function(response) {
-          self.props.setDocs(response.data);
+            self.props.setDocs(response.data);
         }).catch(function(error) {
-          console.log(error);
+            console.log(error);
         });
     }
 
     logout() {
         let self = this;
-        axios.get('http://localhost:3000/logout'
-        ).then(function(response) {
+        axios.get('http://localhost:3000/logout').then(function(response) {
             self.props.clearUser(self.props.user);
             self.props.setDocs({});
         }).then(function(response) {
             self.props.history.push('/');
         }).catch(function(error) {
-          console.log(error);
+            console.log(error);
         });
     }
 
@@ -43,7 +45,11 @@ class Documents extends React.Component {
             <AddDocument/>
             <h5>List of Documents:</h5>
             <ul>
-                {this.props.documents.length > 0 ? this.props.documents.map((doc) => <Document key={doc.id} doc={doc.name}/>) : ''}
+                {
+                    this.props.documents.length > 0
+                        ? this.props.documents.map((doc) => <Document key={doc.id} doc={doc.name}/>)
+                        : ''
+                }
             </ul>
             <ViewShared/>
         </div>);
@@ -51,20 +57,18 @@ class Documents extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    documents: state.documents,
-    user: state.user
-  };
+    return {documents: state.documents, user: state.user};
 }
 
 // mapStateToProps is here
 const mapDispatchToProps = (dispatch) => {
     return {
-    setDocs: (documents) => {
-        dispatch(setDocuments(documents))
-    },
-    clearUser: (user) => {
-    dispatch(deleteUser(user))
-}}
+        setDocs: (documents) => {
+            dispatch(setDocuments(documents))
+        },
+        clearUser: (user) => {
+            dispatch(deleteUser(user))
+        }
+    }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Documents)

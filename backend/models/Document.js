@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 let connect = process.env.MONGODB_URI;
 mongoose.connect(connect);
 
@@ -14,7 +13,8 @@ const documentSchema = new mongoose.Schema({
     collaborators: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }]
+    }],
+    content: String
 });
 
 const Document = mongoose.model('Document', documentSchema);

@@ -31,13 +31,11 @@ class Login extends React.Component {
             username: this.state.username,
             password: this.state.password
         }
-        axios.post('http://localhost:3000/login', user)
-        .then(function(response) {
+        axios.post('http://localhost:3000/login', user).then(function(response) {
             self.props.getUser(response.data);
         }).then(function(response) {
             self.props.history.push('/documents');
-        })
-        .catch(function(error) {
+        }).catch(function(error) {
             self.props.history.push('/signup');
         });
 
@@ -80,23 +78,19 @@ class Login extends React.Component {
     }
 };
 
-
 const mapStateToProps = (state) => {
-    return {
-        user: state.user
-    };
-  }
+    return {user: state.user};
+}
 
-  const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         getUser: (user) => {
-        dispatch(setUser(user))
+            dispatch(setUser(user))
+        }
     }
-    }
-  }
+}
 
-  // Promote App from a component to a container
-  Login = connect(mapStateToProps, mapDispatchToProps)(Login);
-
+// Promote App from a component to a container
+Login = connect(mapStateToProps, mapDispatchToProps)(Login);
 
 export default Login;
