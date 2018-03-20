@@ -6,7 +6,6 @@ import {addDocument} from '../backend/actions/index'
 
 const dbUrl = "/db";
 
-
 class AddDocument extends React.Component {
     constructor(props) {
         super(props);
@@ -31,9 +30,9 @@ class AddDocument extends React.Component {
 
         axios.post(dbUrl + '/document', {
             name: state.name,
-            password: state.description,
-            owner: this.props.user,
-            collaborators: {}
+            password: state.description
+            // owner: {},
+            // collaborators: {}
         }).then(function(response) {
             console.log(response);
         }).catch(function(error) {
@@ -94,7 +93,6 @@ const mapStateToProps = (state) => {
     }
     }
   }
-
 
   // Promote App from a component to a container
   AddDocument = connect(mapStateToProps, mapDispatchToProps)(AddDocument);
