@@ -39,7 +39,6 @@ class Main extends React.Component {
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
-<<<<<<< HEAD
     onChange(editorState) {
       // let self = this;
       // console.log('gets here')
@@ -66,14 +65,6 @@ class Main extends React.Component {
         axios.get('http://localhost:3000/shared',{
         params: {
             id: self.props.current.id
-=======
-    componentWillMount() {
-        const docId = this.props.location.id;
-        let self = this;
-        axios.get('http://localhost:3000/shared',{
-        params: {
-            id: docId
->>>>>>> 880f7c4d27fabb5f418a716e8c5b93ce3d03470a
         }}).then(function(response) {
             self.props.setCurrentDoc(response.data);
         }).then(function(response) {
