@@ -55,9 +55,9 @@ export default function databaseAccess(app) {
         })
     });
 
-    app.get('/update', (req, res) => {
-        Document.update({ _id: req.query.id },
-            { $set: { rawContent: req.query.currentContent }})
+    app.post('/update', (req, res) => {
+        Document.update({ _id: req.body.id },
+            { $set: { rawContent: req.body.currentContent }})
             .then(response => {
                 console.log(response);
                 res.send(response);
