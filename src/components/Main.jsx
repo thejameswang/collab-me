@@ -42,13 +42,11 @@ export default class Main extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.location.state.current._id);
         let self = this;
         axios.get('http://localhost:3000/shared', {
         params: {
             id: self.props.location.state.current._id
         }}).then(function(response) {
-            console.log(response);
             self.setState({
                 editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(response.data.rawContent)))
             })
@@ -120,16 +118,13 @@ export default class Main extends React.Component {
     }
 
     saveDoc() {
-
         const docState = this.state.editorState.getCurrentContent();
-        console.log("current state: " + docState);
         const info = {
             id: this.props.location.state.current._id,
             currentContent: JSON.stringify(convertToRaw(docState))
         }
-
         axios.post('http://localhost:3000/update',info).then(function(response) {
-            console.log(response);
+            console.log("Doc saved!");
         }).catch(function(error) {
             console.log(error);
         });
