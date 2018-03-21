@@ -218,8 +218,8 @@ class Main extends React.Component {
                     </div>
                     <div className="col-lg-12 login-form">
                         <div className="col-lg-12 login-form">
-                            <label className="form-control-label">SHAREABLE ID: {this.props.current.id}</label>
-                            <CopyToClipboard text={this.props.current.id} onCopy={this.onCopy.bind(this)}>
+                            <label className="form-control-label">SHAREABLE ID: {this.props.current._id}</label>
+                            <CopyToClipboard text={this.props.current._id} onCopy={this.onCopy.bind(this)}>
                                 <button className="btn btn-xs btn-default" title="copy">
                                     <i className="fa fa-copy"></i>
                                     Copy to Clipboard</button>
