@@ -19,9 +19,17 @@ import History from './History.jsx';
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
+        let stringToParse;
 
+        if (typeof(this.props.location.state.current.rawContent)!== "undefined") {
+            stringToParse = EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent)));
+        } else {
+            stringToParse = EditorState.createEmpty();
+        }
+
+        console.log(this.props.location.state.current);
         this.state = {
-            editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent))),
+            editorState: stringToParse,
             size: 12,
             color: "red",
             backend: '',
@@ -183,7 +191,7 @@ export default class Main extends React.Component {
             <div>
                 <h5>Document Name</h5>
                 <p>Shareable ID: {this.props.location.state.current._id}
-                    <CopyToClipboard text={this.props.location.state.current._id.toString()} onCopy={this.onCopy.bind(this)}>
+                    <CopyToClipboard text={this.props.location.state.current._id} onCopy={this.onCopy.bind(this)}>
                         <button className="btn btn-xs btn-default" title="copy">
                             <i className="fa fa-copy"></i>
                             Copy to Clipboard</button>

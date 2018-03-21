@@ -11,6 +11,8 @@ class Document extends React.Component {
     }
 
     render() {
+        console.log(this.props.doc);
+
         return (
         <div className="row">
             <div className="col-lg-12"><p>

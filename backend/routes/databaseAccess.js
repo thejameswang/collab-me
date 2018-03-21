@@ -24,7 +24,9 @@ export default function databaseAccess(app) {
         console.log(req.body);
         const newDocument = new Document({
             name: req.body.name,
-            owner: req.body.owner._id
+            owner: req.body.owner._id,
+            content: req.body.content,
+            rawContent: req.body.rawContent
         });
 
         newDocument.save().then(response => {
@@ -47,6 +49,7 @@ export default function databaseAccess(app) {
     // Enables the end user to grab all todo items in the database
     app.get('/documents', (req, res) => {
         Document.find({owner: req.query.id}).then(response => {
+            console.log(response);
             res.send(response);
         }).catch(error => {
             res.send(error);
