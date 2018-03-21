@@ -27,18 +27,21 @@ export default class Main extends React.Component {
             backend: '',
             client: '',
             response: false,
-            endpoint: "http://10.2.105.66:8000",
+            endpoint: "http://10.2.110.153:8000",
             copied: false,
             search: ''
         };
-        this.onChange = (editorState) => this.setState({editorState});
+        this.onChange = (editorState) => {
+          console.log(editorState)
+          // socket.emit('text', {text: editorState})
+          this.setState({editorState})
+          };
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
     componentDidMount() {
         const {endpoint} = this.state;
         const socket = socketIOClient(endpoint);
-        socket.emit('text', {text: "sending you this text data fron the client"});
         socket.on('text', (data) => this.handleRecievedText(data));
         socket.on('newUser', (data) => this.updateText(data));
     }
