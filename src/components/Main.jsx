@@ -40,11 +40,11 @@ class Main extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props);
+        const docId = this.props.location.id;
         let self = this;
         axios.get('http://localhost:3000/shared',{
         params: {
-            id: self.props.location.id
+            id: docId
         }}).then(function(response) {
             self.props.setCurrentDoc(response.data);
         }).then(function(response) {
@@ -140,7 +140,7 @@ class Main extends React.Component {
         }
 
         axios.post('http://localhost:3000/update', {
-            id: this.props.current.id,
+            id:this.props.location.id,
             currentContent: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())),
             collaborators: collaborators,
             history: currentHistory
