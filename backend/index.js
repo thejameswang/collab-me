@@ -12,9 +12,6 @@ import User from './models/User';
 import crypto from 'crypto';
 const http = require("http");
 const socketIo = require("socket.io");
-
-
-
 var app = express();
 
 app.use(bodyParser.json());
@@ -25,7 +22,6 @@ databaseAccess(app);
 initializeAuth(app, passport);
 socketFile(app);
 
-
 app.post('/login', passport.authenticate('local'), function(req, res) {
     // res.json({ success: true, message: "logged in!" });
     User.findOne({username: req.body.username}).catch(error => {
@@ -33,28 +29,6 @@ app.post('/login', passport.authenticate('local'), function(req, res) {
     }).then(response => {
         res.send(response);
     });
-
-    // POST: '/login'
-    // If login successful --> redirect to homepage
-    // Else --> redirect back to login
-    //  Do email and password validation for the server
-    // passport.authenticate("local", function(err, user, info) {
-    // console.log(user);
-    // console.log(err);
-    // console.log(info);
-    // if(err) return next(err)
-    // if(!user) {
-    // 	return res.json({ success: false, message: info.message })
-    // }
-    //
-    // req.logIn(user, loginErr => {
-    // 	if(loginErr) {
-    // 		return res.json({ success: false, message: loginErr })
-    // 	}
-    // 	console.log("authentication succeeds");
-    // 	return res.json({ success: true, message: "authentication succeeded" })
-    // })
-    // })(req, res, next)
 });
 
 app.get("/logout", function(req, res) {
@@ -104,11 +78,6 @@ app.get('/', function(req, res) {
         res.redirect('/login')
     }
 });
-
-
-
-// Sockets
-
 
 
 console.log('Express started. Listening on port', process.env.PORT || 3000);

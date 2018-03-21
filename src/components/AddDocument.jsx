@@ -14,6 +14,10 @@ class AddDocument extends React.Component {
         };
     }
 
+    componentDidMount() {
+        console.log(this.props)
+    }
+
     handleInputChange(event) {
         const state = this.state;
         state[event.target.name] = event.target.value;
@@ -23,12 +27,16 @@ class AddDocument extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         let self = this;
+        let newDoc = {};
         axios.post('http://localhost:3000/add', {
             name: self.state.name,
             owner: self.props.user,
             content: ""
         }).then(function(response) {
             self.props.createDocument(response.data);
+            newDoc = response.data;
+        }).then(function(response) {
+            self.props.history.push({pathname: '/edit', state: { current: newDoc }});
         }).catch(function(error) {
             console.log(error);
         });

@@ -1,31 +1,40 @@
 import React from 'react';
-import {Editor, convertToRaw,convertFromRaw, EditorState, RichUtils, Modifier,ContentState} from 'draft-js';
+import {
+    Editor,
+    convertToRaw,
+    convertFromRaw,
+    EditorState,
+    RichUtils,
+    Modifier,
+    ContentState
+} from 'draft-js';
 import {Link, Route} from 'react-router-dom';
 import axios from 'axios';
 import socketIOClient from "socket.io-client";
-
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            editorState:  EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent))),
+            editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent))),
             size: 12,
             color: "red",
             backend: '',
             client: '',
             response: false,
-            endpoint: "http://10.2.105.66:8000"
+            endpoint: "http://10.2.105.66:8000",
+            copied: false
         };
         this.onChange = (editorState) => this.setState({editorState});
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
     componentDidMount() {
-        const { endpoint } = this.state;
+        const {endpoint} = this.state;
         const socket = socketIOClient(endpoint);
-        socket.emit('text', { text: "sending you this text data fron the client"});
+        socket.emit('text', {text: "sending you this text data fron the client"});
         socket.on('text', (data) => this.handleRecievedText(data));
         socket.on('newUser', (data) => this.updateText(data));
     }
@@ -45,7 +54,6 @@ export default class Main extends React.Component {
         console.log(data);
     }
 
-
     handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
@@ -56,28 +64,28 @@ export default class Main extends React.Component {
     }
 
     _onBoldClick() {
-      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
+        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
     }
     _onItalicsClick() {
-      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'));
+        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'));
     }
     _onUnderlineClick() {
-      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'UNDERLINE'));
+        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'UNDERLINE'));
     }
     _onStrikethroughClick() {
-      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'STRIKETHROUGH'));
+        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'STRIKETHROUGH'));
     }
     _onLeftAlignClick() {
-      this.onChange(RichUtils.toggleBlockType(this.state.editorState, 'STRIKETHROUGH'));
+        this.onChange(RichUtils.toggleBlockType(this.state.editorState, 'STRIKETHROUGH'));
     }
     _onRightAlignClick() {
-      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNRIGHT'));
+        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNRIGHT'));
     }
     _onLeftAlignClick() {
-      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNLEFT'));
+        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNLEFT'));
     }
     _onCenterAlignClick() {
-      this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNCENTER'));
+        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNCENTER'));
     }
 
     handleFontSizeChange(event) {
@@ -104,24 +112,32 @@ export default class Main extends React.Component {
         }).catch(function(error) {
             console.log(error);
         });
-        // Make update axios call with new content using id
-
     }
 
+    onCopy() {
+  this.setState({copied: true});
+}
     render() {
 
         return (<div className="container">
             <p>
-                <Link  to={{ pathname: '/documents'}} className="btn btn-xs btn-default">Go Back</Link>
+                <Link to={{
+                        pathname: '/documents'
+                    }} className="btn btn-xs btn-default">Go Back</Link>
             </p>
             <div className="title">
                 <h3>Collab.Me</h3>
             </div>
             <div>
                 <h5>Document Name</h5>
-                <p>Shareable ID: #########<button className="btn btn-xs btn-default" title="copy">
-                        <i className="fa fa-copy"></i>
-                        Copy to Clipboard</button>
+                <p>Shareable ID: {this.props.location.state.current._id}
+                <CopyToClipboard text={this.props.location.state.current._id.toString()}
+                  onCopy={this.onCopy.bind(this)}>
+                 <button className="btn btn-xs btn-default" title="copy">
+                <i className="fa fa-copy"></i>
+                Copy to Clipboard</button>
+               </CopyToClipboard>
+               <div>{this.state.copied ? <span><i>ID Copied.</i></span> : null}</div>
                 </p>
             </div>
             <div className="container">Client: {this.state.client}</div>
@@ -129,26 +145,26 @@ export default class Main extends React.Component {
             <p>
                 <div className='btn-group'>
                     <div className="dropdown">Font Color:
-                    <select value={this.state.value} onChange={this.handleFontColorChange.bind(this)} className="btn btn-xs btn-default dropdown-toggle" name="color">
-                        <option className="dropdown-item" value="red">Red</option>
-                        <option className="dropdown-item" value="orange">Orange</option>
-                        <option className="dropdown-item" value="yellow">Yellow</option>
-                        <option className="dropdown-item" value="green">Green</option>
-                        <option className="dropdown-item" value="blue">Blue</option>
-                        <option className="dropdown-item" value="purple">Purple</option>
-                    </select>
+                        <select value={this.state.value} onChange={this.handleFontColorChange.bind(this)} className="btn btn-xs btn-default dropdown-toggle" name="color">
+                            <option className="dropdown-item" value="red">Red</option>
+                            <option className="dropdown-item" value="orange">Orange</option>
+                            <option className="dropdown-item" value="yellow">Yellow</option>
+                            <option className="dropdown-item" value="green">Green</option>
+                            <option className="dropdown-item" value="blue">Blue</option>
+                            <option className="dropdown-item" value="purple">Purple</option>
+                        </select>
+                    </div>
+                    <div className="dropdown">Font Size:
+                        <select value={this.state.value} onChange={this.handleFontSizeChange.bind(this)} className="btn btn-xs btn-default dropdown-toggle" name="color">
+                            <option className="dropdown-item" value="16">16</option>
+                            <option className="dropdown-item" value="18">18</option>
+                            <option className="dropdown-item" value="22">22</option>
+                            <option className="dropdown-item" value="24">24</option>
+                            <option className="dropdown-item" value="26">26</option>
+                            <option className="dropdown-item" value="28">28</option>
+                        </select>
+                    </div>
                 </div>
-                <div className="dropdown">Font Size:
-                <select value={this.state.value} onChange={this.handleFontSizeChange.bind(this)} className="btn btn-xs btn-default dropdown-toggle" name="color">
-                    <option className="dropdown-item" value="16">16</option>
-                    <option className="dropdown-item" value="18">18</option>
-                    <option className="dropdown-item" value="22">22</option>
-                    <option className="dropdown-item" value="24">24</option>
-                    <option className="dropdown-item" value="26">26</option>
-                    <option className="dropdown-item" value="28">28</option>
-                </select>
-            </div>
-            </div>
             </p>
             <div className='btn-group'>
                 <button className="btn btn-xs btn-default" title="bold" onClick={this._onBoldClick.bind(this)}>
@@ -195,19 +211,19 @@ export default class Main extends React.Component {
 }
 
 const styleMap = {
-  'ALIGNRIGHT': {
-    textAlign: 'right',
-    display: 'inline-block',
-    width: '100%'
-  },
-  'ALIGNLEFT': {
-    textAlign: 'left',
-    display: 'inline-block',
-    width: '100%'
-  },
-  'ALIGNCENTER': {
-    textAlign: 'center',
-    display: 'inline-block',
-    width: '100%'
-  },
+    'ALIGNRIGHT': {
+        textAlign: 'right',
+        display: 'inline-block',
+        width: '100%'
+    },
+    'ALIGNLEFT': {
+        textAlign: 'left',
+        display: 'inline-block',
+        width: '100%'
+    },
+    'ALIGNCENTER': {
+        textAlign: 'center',
+        display: 'inline-block',
+        width: '100%'
+    }
 };

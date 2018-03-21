@@ -34,6 +34,16 @@ export default function databaseAccess(app) {
         })
     });
 
+    app.get('/shared', (req, res) =>{
+        Document.findOne({_id: req.query.id}).then(response => {
+            console.log("Got doc: " + response);
+
+            res.send(response);
+        }).catch(error => {
+            res.send(error);
+        })
+    })
+
     // Enables the end user to grab all todo items in the database
     app.get('/documents', (req, res) => {
         Document.find({owner: req.query.id}).then(response => {

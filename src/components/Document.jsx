@@ -8,18 +8,15 @@ import {Link, Route} from 'react-router-dom';
 class Document extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
     }
 
     render() {
         return (<div>
-            <Link  to={{ pathname: '/edit', state: { current: this.props.doc}}} className="btn btn-xs btn-default">{this.props.doc.name}</Link>
+            <Link to={{ pathname: '/edit', state: { current: this.props.doc}}}
+                className="btn btn-xs btn-default">{this.props.doc.name}</Link>
         </div>);
     }
-
 }
-
-
 
 const mapStateToProps = (state) => {
     return {
@@ -27,10 +24,8 @@ const mapStateToProps = (state) => {
     };
 }
 
-// mapStateToProps is here
 const mapDispatchToProps = (dispatch) => {
-    return {
-
-    }
+    return {}
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Document)

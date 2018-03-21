@@ -11,9 +11,7 @@ import {connect} from 'react-redux';
 class Documents extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-
-       };
+        this.state = {};
     }
 
     componentWillMount() {
@@ -42,7 +40,7 @@ class Documents extends React.Component {
     }
 
     render() {
- const { response } = this.state;
+        const {response} = this.state;
         return (<div className="container">
 
             <button type="submit" onClick={this.logout.bind(this)} className="btn btn-xs btn-default">Logout</button>
@@ -61,10 +59,7 @@ class Documents extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        documents: state.documents,
-        user: state.user
-    };
+    return {documents: state.documents, user: state.user};
 }
 
 // mapStateToProps is here
