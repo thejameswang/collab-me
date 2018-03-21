@@ -20,16 +20,6 @@ export default class Main extends React.Component {
     constructor(props) {
         super(props);
 
-<<<<<<< HEAD
-        if (typeof(this.props.location.state.current.rawContent)!== "undefined") {
-            console.log(this.props.location.state.current.rawContent)
-            stringToParse = EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent)));
-        } else {
-            stringToParse = EditorState.createEmpty();
-        }
-        console.log(this.props.location.state.current);
-=======
->>>>>>> c8e42e22063ef83a8fb6c3ae9c54c27f12c45269
         this.state = {
             editorState: EditorState.createEmpty(),
             size: 12,
@@ -42,25 +32,30 @@ export default class Main extends React.Component {
             search: ''
         };
         this.socket = socketIOClient(this.state.endpoint);
-        this.onChange = (editorState) => {
-          // console.log(editorState)
-          this.socket.emit('text', {text: editorState})
-          this.setState({editorState})
-          };
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
-    componentWillMount() {
-        //checkdb for content using id
+    onChange(editorState) {
+      // let self = this;
+      // console.log('gets here')
+      this.setState({editorState}, () => {
+        const {secretToken, docId} = this
 
-
+        const state = convertToRaw(this.state.editorState.getCurrentContent())
+        this.socket.emit('document-save', {userToken: this.props.location.state.current._id, secretToken, state, docId})
+      })
+      // this.setState({editorState})
     }
+    // componentWillMount() {
+    //     //checkdb for content using id
+    //
+    //
+    // }
 
+    componentWillUnmount() {
+      this.socket.off('document-update')
+    }
     componentDidMount() {
-<<<<<<< HEAD
-        this.socket.on('text', (data) => this.handleRecievedText(data));
-        this.socket.on('newUser', (data) => this.updateText(data));
-=======
         let self = this;
         axios.get('http://localhost:3000/shared', {
         params: {
@@ -75,31 +70,45 @@ export default class Main extends React.Component {
             })
         });
 
-        const {endpoint} = this.state;
-        const socket = socketIOClient(endpoint);
-        socket.emit('text', {text: "sending you this text data fron the client"});
-        socket.on('text', (data) => this.handleRecievedText(data));
-        socket.on('newUser', (data) => this.updateText(data));
->>>>>>> c8e42e22063ef83a8fb6c3ae9c54c27f12c45269
+        this.socket.emit('join-document', {docId: 'DOC1', userToken: self.props.location.state.current._id}, (ack) => {
+          if(!ack) console.error('Error joining document!')
+          self.secretToken = ack.secretToken
+          self.docId = ack.docId
+          if(ack.state) {
+            this.setState({
+              editorState:EditorState.createWithContent(convertFromRaw(ack.state))
+            })
+          }
+        })
+
+        this.socket.on('document-update', (update) => {
+          // console.log('gets here')
+          const {state, docId, userToken} = update;
+          console.log(this.props.location.state.current._id, docId, userToken)
+          if(this.props.location.state.current._id !== userToken) {
+            this.setState({editorState:EditorState.createWithContent(convertFromRaw(state))})
+          }
+        })
+        // socket.emit('text', {text: "sending you this text data fron the client"});
+        // socket.on('text', (data) => this.handleRecievedText(data));
+        // socket.on('newUser', (data) => this.updateText(data));
     }
 
     //  Replace the editor with the current content of the editor
     // from the web-sockets whenever a new user connects to the socket
-    updateText(data) {
-        this.setState({client: data.text});
-    }
+    // updateText(data) {
+    //     this.setState({client: data.text});
+    // }
+
+
 
     // Called whenever the backend/server sends back a package called ‘text’
     // Updates the text that is found in the editor and is updating the contents of the text object
-    handleRecievedText(data) {
-<<<<<<< HEAD
-        this.setState({backend: data, editorState: data});
-        // console.log("Getting the following from the backend: " + data.text);
-        console.log(data);
-=======
-        this.setState({backend: data.text});
->>>>>>> c8e42e22063ef83a8fb6c3ae9c54c27f12c45269
-    }
+    // handleRecievedText(data) {
+    //     this.setState({backend: data, editorState: data});
+    //     // console.log("Getting the following from the backend: " + data.text);
+    //     console.log(data);
+    // }
 
     handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -301,7 +310,7 @@ export default class Main extends React.Component {
             </div>
             <button className="btn btn-xs btn-default" title="custom">Custom</button>
             <div className="editor">
-                <Editor customStyleMap={styleMap} editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
+                <Editor customStyleMap={styleMap} editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={(editorState) => this.onChange(editorState)}/>
             </div>
             <p>
                 <button onClick={this.saveDoc.bind(this)} className="btn btn-outline-primary" title="save">Save Changes</button>

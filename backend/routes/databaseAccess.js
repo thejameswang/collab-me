@@ -38,7 +38,6 @@ export default function databaseAccess(app) {
     app.get('/shared', (req, res) =>{
         Document.findOne({_id: req.query.id}).then(response => {
             console.log("Got doc: " + response);
-
             res.send(response);
         }).catch(error => {
             res.send(error);

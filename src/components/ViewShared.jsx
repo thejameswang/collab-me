@@ -21,19 +21,18 @@ class ViewShared extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-
+        console.log(this.props.user)
         let self = this;
         axios.get('http://localhost:3000/shared',{
         params: {
-            id: self.state.docId
+            id: self.state.docId,
+            user: this.props.user
         }}).then(function(response) {
             console.log("doc to be worked on : " + response.data.name);
             self.props.history.push({pathname: '/edit', state: { current: response.data }});
         }).catch(function(error) {
             console.log(error);
         });
-
-
     }
 
     render() {
@@ -59,7 +58,7 @@ class ViewShared extends React.Component {
                         </div>
                     </div>
                 </div>
-            
+
         );
     }
 }
