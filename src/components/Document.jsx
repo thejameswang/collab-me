@@ -14,11 +14,7 @@ class Document extends React.Component {
         return (<div className="row">
             <div className="col-lg-12">
                 <p>
-                    <Link to={{ pathname: '/edit',
-                            state: {
-                                current: this.props.doc
-                            }
-                        }} className="btn btn-outline-secondary">{this.props.doc.name}</Link>
+                    <Link to={{ pathname: '/edit', id: this.props.doc._id}} className="btn btn-outline-secondary">{this.props.doc.name}</Link>
                 </p>
             </div>
         </div>);
@@ -26,11 +22,18 @@ class Document extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {user: state.user};
+    return {
+        user: state.user,
+        current: state.current
+    };
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {}
+    return {
+        setCurrentDoc: (doc) => {
+            dispatch(currentDoc(doc))
+        }
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Document)

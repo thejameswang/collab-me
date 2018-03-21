@@ -21,7 +21,6 @@ class ViewShared extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-
         let self = this;
         axios.get('http://localhost:3000/shared',{
         params: {
@@ -32,8 +31,6 @@ class ViewShared extends React.Component {
         }).catch(function(error) {
             console.log(error);
         });
-
-
     }
 
     render() {
@@ -59,7 +56,7 @@ class ViewShared extends React.Component {
                         </div>
                     </div>
                 </div>
-            
+
         );
     }
 }

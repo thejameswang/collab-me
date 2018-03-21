@@ -8,8 +8,7 @@ class History extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props);
-        console.log(this.state);
+
 
     }
 
@@ -17,12 +16,12 @@ class History extends React.Component {
         return (<div className="container">
             <Link to='/documents' className="btn btn-xs btn-default">Back to Documents</Link>
             <div className="row">
-            <div className="col-xs-12 col-md-8">Document: {this.props.location.state.current.name}</div>
+            <div className="col-xs-12 col-md-8">Document: {this.props.current.name}</div>
 
-            <div className="col-xs-12 col-md-4">History</div>
+            <div className="col-xs-12 col-md-4">History: {this.props.current.history.toString()}</div>
         </div>
         <div className="row">
-            <div className="col-xs-12 col-md-8">Content: {this.props.location.state.current.content}</div>
+            <div className="col-xs-12 col-md-8">Content: {this.props.current.content}</div>
         </div>
         </div>);
     }
@@ -30,7 +29,8 @@ class History extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        user: state.user,
+        current: state.current
     };
 }
 

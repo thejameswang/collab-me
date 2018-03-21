@@ -18,5 +18,5 @@ export function deleteUser(user) {
 }
 
 export function currentDoc(current) {
-    return {type: 'CURRENT_DOC', current};
+    return {type: 'SET_CURRENT', current};
 }

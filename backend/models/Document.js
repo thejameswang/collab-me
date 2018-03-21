@@ -16,7 +16,7 @@ const documentSchema = new mongoose.Schema({
     }],
     content: String,
     rawContent: String,
-    history: []
+    history: Array
 });
 
 const Document = mongoose.model('Document', documentSchema);
