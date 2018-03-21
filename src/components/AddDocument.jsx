@@ -28,12 +28,11 @@ class AddDocument extends React.Component {
             name: self.state.name,
             owner: self.props.user,
             content: "",
-            rawContent: '{}'
+            rawContent: '{}',
+            history: []
         }).then(function(response) {
             self.props.createDocument(response.data);
             newDoc = response.data;
-        }).then(function() {
-            self.props.history.push({pathname: '/edit', state: { current: newDoc }});
         }).catch(function(error) {
             console.log(error);
         });

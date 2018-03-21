@@ -25,7 +25,8 @@ export default function databaseAccess(app) {
             name: req.body.name,
             owner: req.body.owner._id,
             content: req.body.content,
-            rawContent: req.body.rawContent
+            rawContent: req.body.rawContent,
+            history: []
         });
 
         newDocument.save().then(response => {
@@ -37,7 +38,6 @@ export default function databaseAccess(app) {
 
     app.get('/shared', (req, res) =>{
         Document.findOne({_id: req.query.id}).then(response => {
-            console.log("Got doc: " + response);
             res.send(response);
         }).catch(error => {
             res.send(error);
@@ -47,7 +47,6 @@ export default function databaseAccess(app) {
     // Enables the end user to grab all todo items in the database
     app.get('/documents', (req, res) => {
         Document.find({owner: req.query.id}).then(response => {
-            console.log(response);
             res.send(response);
         }).catch(error => {
             res.send(error);
@@ -55,14 +54,17 @@ export default function databaseAccess(app) {
     });
 
     app.post('/update', (req, res) => {
-        Document.update({ _id: req.body.id },
-            { $set: { rawContent: req.body.currentContent }})
-            .then(response => {
-                console.log(response);
-                res.send(response);
-            }).catch(error => {
-                res.send(error);
-            })
+        Document.findOneAndUpdate({ _id: req.body.id },
+            { $set: { "rawContent": req.body.currentContent,
+            "history": req.body.history,
+            "collaborators": req.body.collaborators }})
+            .exec(function(err, doc){
+               if(err) {
+                   res.status(500).send(err);
+               } else {
+                   res.status(200).send(doc);
+               }
+            });
     });
 
 }

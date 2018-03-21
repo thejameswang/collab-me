@@ -6,7 +6,11 @@ export default function reducer(state = [], action) {
             const addNewState = [...state];
             const newDoc = {
                 name: action.doc.name,
-                owner: action.doc._id
+                owner: action.doc.owner,
+                id: action.doc._id,
+                rawContent: action.doc.rawContent,
+                history: action.doc.history,
+                collaborators: action.doc.collaborators
             };
             addNewState.push(newDoc);
             return addNewState;
