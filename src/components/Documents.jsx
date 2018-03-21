@@ -66,7 +66,7 @@ class Documents extends React.Component {
 
 const mapStateToProps = (state) => {
     return {documents: state.documents,
-        ser: state.user};
+        user: state.user};
 }
 
 // mapStateToProps is here
