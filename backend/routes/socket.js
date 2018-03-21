@@ -12,7 +12,7 @@ export default function socket(app) {
     // Emits back to the client the same data.
     let handleTextSent = (data) => {
         text.text = data.text;
-        io.emit('text', data);
+        io.emit('text', data.text);
         return data;
     }
 

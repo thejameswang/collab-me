@@ -22,11 +22,11 @@ export default class Main extends React.Component {
         let stringToParse;
 
         if (typeof(this.props.location.state.current.rawContent)!== "undefined") {
+            console.log(this.props.location.state.current.rawContent)
             stringToParse = EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent)));
         } else {
             stringToParse = EditorState.createEmpty();
         }
-
         console.log(this.props.location.state.current);
         this.state = {
             editorState: stringToParse,
@@ -39,19 +39,18 @@ export default class Main extends React.Component {
             copied: false,
             search: ''
         };
+        this.socket = socketIOClient(this.state.endpoint);
         this.onChange = (editorState) => {
-          console.log(editorState)
-          // socket.emit('text', {text: editorState})
+          // console.log(editorState)
+          this.socket.emit('text', {text: editorState})
           this.setState({editorState})
           };
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
     componentDidMount() {
-        const {endpoint} = this.state;
-        const socket = socketIOClient(endpoint);
-        socket.on('text', (data) => this.handleRecievedText(data));
-        socket.on('newUser', (data) => this.updateText(data));
+        this.socket.on('text', (data) => this.handleRecievedText(data));
+        this.socket.on('newUser', (data) => this.updateText(data));
     }
 
     //  Replace the editor with the current content of the editor
@@ -64,8 +63,8 @@ export default class Main extends React.Component {
     // Called whenever the backend/server sends back a package called ‘text’
     // Updates the text that is found in the editor and is updating the contents of the text object
     handleRecievedText(data) {
-        this.setState({backend: data.text});
-        console.log("Getting the following from the backend: " + data.text);
+        this.setState({backend: data, editorState: data});
+        // console.log("Getting the following from the backend: " + data.text);
         console.log(data);
     }
 
