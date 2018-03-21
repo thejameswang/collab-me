@@ -23,11 +23,12 @@ class AddDocument extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         let self = this;
-        let newDoc = {};
+        let newDoc;
         axios.post('http://localhost:3000/add', {
             name: self.state.name,
             owner: self.props.user,
-            content: ""
+            content: "",
+            rawContent: '{}'
         }).then(function(response) {
             self.props.createDocument(response.data);
             newDoc = response.data;

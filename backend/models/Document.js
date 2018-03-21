@@ -15,7 +15,7 @@ const documentSchema = new mongoose.Schema({
         ref: 'User'
     }],
     content: String,
-    rawContent: {}
+    rawContent: String
 });
 
 const Document = mongoose.model('Document', documentSchema);

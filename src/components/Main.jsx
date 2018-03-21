@@ -19,9 +19,17 @@ import History from './History.jsx';
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
+        let stringToParse;
 
+        if (typeof(this.props.location.state.current.rawContent)!== "undefined") {
+            stringToParse = EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent)));
+        } else {
+            stringToParse = EditorState.createEmpty();
+        }
+
+        console.log(this.props.location.state.current);
         this.state = {
-            editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent))),
+            editorState: stringToParse,
             size: 12,
             color: "red",
             backend: '',
@@ -175,36 +183,42 @@ export default class Main extends React.Component {
     render() {
 
         return (<div className="container">
-            <p>
+            <div className="row">
+
+            <div className="col-lg-3 col-md-2"></div>
+            <div className="col-lg-6 col-md-8 login-box">
                 <Link to={{
                         pathname: '/documents'
-                    }} className="btn btn-xs btn-default">Go Back</Link>
-            </p>
-            <div className="title">
-                <h3>Collab.Me</h3>
+                    }} className="btn btn-outline-secondary">Go Back</Link>
+
+            <div className="col-lg-12 login-title">
+                {this.props.location.state.current.name}
             </div>
-            <div>
-                <h5>Document Name</h5>
-                <p>Shareable ID: {this.props.location.state.current._id}
-                    <CopyToClipboard text={this.props.location.state.current._id.toString()} onCopy={this.onCopy.bind(this)}>
+            <div className="col-lg-12 login-form">
+                <div className="col-lg-12 login-form">
+                    <label className="form-control-label">SHAREABLE ID: {this.props.location.state.current._id}</label>
+                    <CopyToClipboard text={this.props.location.state.current._id} onCopy={this.onCopy.bind(this)}>
                         <button className="btn btn-xs btn-default" title="copy">
                             <i className="fa fa-copy"></i>
                             Copy to Clipboard</button>
                     </CopyToClipboard>
-                    <div>{
-                            this.state.copied
-                                ? <span>
-                                        <i>ID Copied.</i>
-                                    </span>
-                                : null
-                        }</div>
-                </p>
+                    <div>{this.state.copied ? <span><i>ID Copied.</i></span>: null}</div>
             </div>
-            <div className="container">Client: {this.state.client}</div>
-            <div className="container">Backend: {this.state.backend}</div>
-            <p>
+            <div className="container">
+                <label className="form-control-label">Client: {this.state.client}</label>
+                <label className="form-control-label">Backend: {this.state.backend}</label>
+            </div>
+            <div className="col-lg-12">
+                <div className="col-lg-12">
+                    <div className="form-group">
+                        <label className="form-control-label">SEARCH DOCUMENT:</label>
+                        <input type="text" name="search" className="form-control" value={this.state.search} onChange={this.handleSearchChange.bind(this)}/>
+                    </div>
+                </div>
+            </div>
                 <div className='btn-group'>
-                    <div className="dropdown">Font Color:
+                    <div className="dropdown">
+                        <label className="form-control-label">FONT COLOR:</label>
                         <select value={this.state.value} onChange={this.handleFontColorChange.bind(this)} className="btn btn-xs btn-default dropdown-toggle" name="color">
                             <option className="dropdown-item" value="red">Red</option>
                             <option className="dropdown-item" value="orange">Orange</option>
@@ -214,7 +228,8 @@ export default class Main extends React.Component {
                             <option className="dropdown-item" value="purple">Purple</option>
                         </select>
                     </div>
-                    <div className="dropdown">Font Size:
+                    <div className="dropdown">
+                        <label className="form-control-label">FONT SIZE:</label>
                         <select value={this.state.value} onChange={this.handleFontSizeChange.bind(this)} className="btn btn-xs btn-default dropdown-toggle" name="color">
                             <option className="dropdown-item" value="16">16</option>
                             <option className="dropdown-item" value="18">18</option>
@@ -225,7 +240,6 @@ export default class Main extends React.Component {
                         </select>
                     </div>
                 </div>
-            </p>
             <div className='btn-group'>
                 <button className="btn btn-xs btn-default" title="bold" onClick={this._onBoldClick.bind(this)}>
                     <i className="fa fa-bold"></i>
@@ -264,18 +278,12 @@ export default class Main extends React.Component {
                 <Editor customStyleMap={styleMap} editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
             </div>
             <p>
-                <button onClick={this.saveDoc.bind(this)} className="btn btn-xs btn-default" title="save">Save Changes</button>
+                <button onClick={this.saveDoc.bind(this)} className="btn btn-outline-primary" title="save">Save Changes</button>
             </p>
             <p>
-                <Link to={{ pathname: '/history', state: { current: this.props.location.state.current}}} className="btn btn-xs btn-default">View History</Link>
+                <Link to={{ pathname: '/history', state: { current: this.props.location.state.current}}} className="btn btn-outline-secondary">View History</Link>
             </p>
-            <div className="col-lg-12">
-                <div className="col-lg-12">
-                    <div className="form-group">
-                        <input type="text" name="search" className="form-control" value={this.state.search} onChange={this.handleSearchChange.bind(this)}/>
-                    </div>
-                </div>
-            </div>
+</div></div></div>
         </div>);
     }
 }

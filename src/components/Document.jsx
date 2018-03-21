@@ -11,17 +11,22 @@ class Document extends React.Component {
     }
 
     render() {
-        return (<div>
-            <Link to={{ pathname: '/edit', state: { current: this.props.doc}}}
-                className="btn btn-xs btn-default">{this.props.doc.name}</Link>
+        return (<div className="row">
+            <div className="col-lg-12">
+                <p>
+                    <Link to={{ pathname: '/edit',
+                            state: {
+                                current: this.props.doc
+                            }
+                        }} className="btn btn-outline-secondary">{this.props.doc.name}</Link>
+                </p>
+            </div>
         </div>);
     }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        user: state.user
-    };
+    return {user: state.user};
 }
 
 const mapDispatchToProps = (dispatch) => {
