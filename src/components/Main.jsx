@@ -14,6 +14,7 @@ import {Link, Route} from 'react-router-dom';
 import axios from 'axios';
 import socketIOClient from "socket.io-client";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import History from './History.jsx';
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -102,7 +103,6 @@ export default class Main extends React.Component {
     }
 
     saveDoc() {
-        console.log(this.props.location.state.current);
         let currentContent = convertToRaw(this.state.editorState.getCurrentContent());
         let self = this;
         axios.get('http://localhost:3000/update', {
@@ -133,10 +133,8 @@ export default class Main extends React.Component {
         });
 
     }
-    handleSubmit(e) {
-        e.preventDefault();
-    }
 
+    // Create regex containing our search term
     generateDecorator(highlightTerm) {
         const regex = new RegExp(highlightTerm, 'g');
         return new CompositeDecorator([
@@ -151,12 +149,14 @@ export default class Main extends React.Component {
         ])
     };
 
+    // Highlight class applied
     SearchHighlight(props) {
         return (<span className="search-and-replace-highlight" style={{
                 color: "red"
             }}>{props.children}</span>)
     };
 
+    // Regex used to find the text ranges that we want to decorate
     findWithRegex(regex, contentBlock, callback) {
         const text = contentBlock.getText();
         let matchArr,
@@ -264,26 +264,13 @@ export default class Main extends React.Component {
                 <button onClick={this.saveDoc.bind(this)} className="btn btn-xs btn-default" title="save">Save Changes</button>
             </p>
             <p>
-                <Link to={{
-                        pathname: '/history',
-                        state: {
-                            current: this.props.location.state.current
-                        }
-                    }} className="btn btn-xs btn-default">View History</Link>
+                <Link to={{ pathname: '/history', state: { current: this.props.location.state.current}}} className="btn btn-xs btn-default">View History</Link>
             </p>
             <div className="col-lg-12">
                 <div className="col-lg-12">
-                    <form onSubmit={this.handleSubmit.bind(this)}>
-                        <div className="form-group">
-                            <input type="text" name="search" className="form-control" value={this.state.search} onChange={this.handleSearchChange.bind(this)}/>
-                        </div>
-                        <div className="col-lg-12">
-                            <div className="col-lg-6"></div>
-                            <div className="col-lg-6">
-                                <button type="submit" className="btn btn-xs btn-default">Search</button>
-                            </div>
-                        </div>
-                    </form>
+                    <div className="form-group">
+                        <input type="text" name="search" className="form-control" value={this.state.search} onChange={this.handleSearchChange.bind(this)}/>
+                    </div>
                 </div>
             </div>
         </div>);

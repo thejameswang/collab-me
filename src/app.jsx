@@ -6,6 +6,7 @@ import ViewShared from './components/ViewShared.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
 import {HashRouter, Route} from 'react-router-dom';
+import History from './components/History.jsx';
 
 export default class App extends React.Component {
 
@@ -17,7 +18,7 @@ export default class App extends React.Component {
                 <Route path="/signup" exact component={Signup}/>
                 <Route path="/documents" exact component={Documents}/>
                 <Route path="/newdocument" exact component={AddDocument}/>
-                <Route path="/history" exact component={history}/>
+                <Route path="/history" exact component={History}/>
             </div>
         </HashRouter>);
     }
