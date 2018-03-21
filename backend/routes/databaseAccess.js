@@ -21,7 +21,6 @@ export default function databaseAccess(app) {
 
     // Enables the end user to create a new todo item in the database
     app.post('/add', (req, res) => {
-        console.log(req.body);
         const newDocument = new Document({
             name: req.body.name,
             owner: req.body.owner._id,
@@ -56,9 +55,9 @@ export default function databaseAccess(app) {
         })
     });
 
-    app.get('/update', (req, res) => {
-        Document.update({ _id: req.query.id },
-            { $set: { rawContent: req.query.currentContent }})
+    app.post('/update', (req, res) => {
+        Document.update({ _id: req.body.id },
+            { $set: { rawContent: req.body.currentContent }})
             .then(response => {
                 console.log(response);
                 res.send(response);

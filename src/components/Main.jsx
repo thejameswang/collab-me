@@ -19,8 +19,8 @@ import History from './History.jsx';
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
-        let stringToParse;
 
+<<<<<<< HEAD
         if (typeof(this.props.location.state.current.rawContent)!== "undefined") {
             console.log(this.props.location.state.current.rawContent)
             stringToParse = EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent)));
@@ -28,8 +28,10 @@ export default class Main extends React.Component {
             stringToParse = EditorState.createEmpty();
         }
         console.log(this.props.location.state.current);
+=======
+>>>>>>> c8e42e22063ef83a8fb6c3ae9c54c27f12c45269
         this.state = {
-            editorState: stringToParse,
+            editorState: EditorState.createEmpty(),
             size: 12,
             color: "red",
             backend: '',
@@ -48,24 +50,55 @@ export default class Main extends React.Component {
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
+    componentWillMount() {
+        //checkdb for content using id
+
+
+    }
+
     componentDidMount() {
+<<<<<<< HEAD
         this.socket.on('text', (data) => this.handleRecievedText(data));
         this.socket.on('newUser', (data) => this.updateText(data));
+=======
+        let self = this;
+        axios.get('http://localhost:3000/shared', {
+        params: {
+            id: self.props.location.state.current._id
+        }}).then(function(response) {
+            self.setState({
+                editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(response.data.rawContent)))
+            })
+        }).catch(function(error) {
+            self.setState({
+                editorState: EditorState.createEmpty()
+            })
+        });
+
+        const {endpoint} = this.state;
+        const socket = socketIOClient(endpoint);
+        socket.emit('text', {text: "sending you this text data fron the client"});
+        socket.on('text', (data) => this.handleRecievedText(data));
+        socket.on('newUser', (data) => this.updateText(data));
+>>>>>>> c8e42e22063ef83a8fb6c3ae9c54c27f12c45269
     }
 
     //  Replace the editor with the current content of the editor
     // from the web-sockets whenever a new user connects to the socket
     updateText(data) {
         this.setState({client: data.text});
-        console.log("Getting the following from the client: " + data.text);
     }
 
     // Called whenever the backend/server sends back a package called ‘text’
     // Updates the text that is found in the editor and is updating the contents of the text object
     handleRecievedText(data) {
+<<<<<<< HEAD
         this.setState({backend: data, editorState: data});
         // console.log("Getting the following from the backend: " + data.text);
         console.log(data);
+=======
+        this.setState({backend: data.text});
+>>>>>>> c8e42e22063ef83a8fb6c3ae9c54c27f12c45269
     }
 
     handleKeyCommand(command, editorState) {
@@ -104,24 +137,20 @@ export default class Main extends React.Component {
 
     handleFontSizeChange(event) {
         this.setState({size: event.target.value});
-        console.log("state is now", this.state);
     }
 
     handleFontColorChange(event) {
         this.setState({color: event.target.value});
-        console.log("state is now", this.state);
     }
 
     saveDoc() {
-        let currentContent = convertToRaw(this.state.editorState.getCurrentContent());
-        let self = this;
-        axios.get('http://localhost:3000/update', {
-            params: {
-                id: self.props.location.state.current._id,
-                currentContent: currentContent
-            }
-        }).then(function(response) {
-            console.log(response);
+        const docState = this.state.editorState.getCurrentContent();
+        const info = {
+            id: this.props.location.state.current._id,
+            currentContent: JSON.stringify(convertToRaw(docState))
+        }
+        axios.post('http://localhost:3000/update',info).then(function(response) {
+            console.log("Doc saved!");
         }).catch(function(error) {
             console.log(error);
         });
@@ -141,7 +170,6 @@ export default class Main extends React.Component {
                 decorator: self.generateDecorator(event.target.value)
             })
         });
-
     }
 
     // Create regex containing our search term
@@ -180,7 +208,6 @@ export default class Main extends React.Component {
     };
 
     render() {
-
         return (<div className="container">
             <div className="row">
 

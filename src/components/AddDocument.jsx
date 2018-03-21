@@ -32,7 +32,7 @@ class AddDocument extends React.Component {
         }).then(function(response) {
             self.props.createDocument(response.data);
             newDoc = response.data;
-        }).then(function(response) {
+        }).then(function() {
             self.props.history.push({pathname: '/edit', state: { current: newDoc }});
         }).catch(function(error) {
             console.log(error);
