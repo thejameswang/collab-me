@@ -19,17 +19,9 @@ import History from './History.jsx';
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
-        let stringToParse;
 
-        if (typeof(this.props.location.state.current.rawContent)!== "undefined") {
-            stringToParse = EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent)));
-        } else {
-            stringToParse = EditorState.createEmpty();
-        }
-
-        console.log(this.props.location.state.current);
         this.state = {
-            editorState: stringToParse,
+            editorState: EditorState.createEmpty(),
             size: 12,
             color: "red",
             backend: '',
@@ -44,6 +36,7 @@ export default class Main extends React.Component {
     }
 
     componentDidMount() {
+        EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.location.state.current.rawContent)));
         const {endpoint} = this.state;
         const socket = socketIOClient(endpoint);
         socket.emit('text', {text: "sending you this text data fron the client"});
@@ -55,15 +48,12 @@ export default class Main extends React.Component {
     // from the web-sockets whenever a new user connects to the socket
     updateText(data) {
         this.setState({client: data.text});
-        console.log("Getting the following from the client: " + data.text);
     }
 
     // Called whenever the backend/server sends back a package called ‘text’
     // Updates the text that is found in the editor and is updating the contents of the text object
     handleRecievedText(data) {
         this.setState({backend: data.text});
-        console.log("Getting the following from the backend: " + data.text);
-        console.log(data);
     }
 
     handleKeyCommand(command, editorState) {
@@ -102,12 +92,10 @@ export default class Main extends React.Component {
 
     handleFontSizeChange(event) {
         this.setState({size: event.target.value});
-        console.log("state is now", this.state);
     }
 
     handleFontColorChange(event) {
         this.setState({color: event.target.value});
-        console.log("state is now", this.state);
     }
 
     saveDoc() {
@@ -119,6 +107,7 @@ export default class Main extends React.Component {
                 currentContent: currentContent
             }
         }).then(function(response) {
+
             console.log(response);
         }).catch(function(error) {
             console.log(error);
@@ -139,7 +128,6 @@ export default class Main extends React.Component {
                 decorator: self.generateDecorator(event.target.value)
             })
         });
-
     }
 
     // Create regex containing our search term
@@ -178,7 +166,6 @@ export default class Main extends React.Component {
     };
 
     render() {
-
         return (<div className="container">
             <div className="row">
 

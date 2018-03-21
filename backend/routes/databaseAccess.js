@@ -21,7 +21,6 @@ export default function databaseAccess(app) {
 
     // Enables the end user to create a new todo item in the database
     app.post('/add', (req, res) => {
-        console.log(req.body);
         const newDocument = new Document({
             name: req.body.name,
             owner: req.body.owner._id,

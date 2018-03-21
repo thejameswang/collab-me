@@ -15,7 +15,8 @@ const documentSchema = new mongoose.Schema({
         ref: 'User'
     }],
     content: String,
-    rawContent: String
+    rawContent: String,
+    history: []
 });
 
 const Document = mongoose.model('Document', documentSchema);
