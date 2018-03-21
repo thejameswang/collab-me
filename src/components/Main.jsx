@@ -30,21 +30,41 @@ class Main extends React.Component {
             backend: '',
             client: '',
             response: false,
-            endpoint: "http://10.2.105.66:8000",
+            endpoint: "http://10.2.110.153:8000",
             copied: false,
             search: '',
             history: []
         };
-        this.onChange = (editorState) => this.setState({editorState});
+        this.socket = socketIOClient(this.state.endpoint);
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
-    componentWillMount() {
-        const docId = this.props.location.id;
+    onChange(editorState) {
+      // let self = this;
+      // console.log('gets here')
+      this.setState({editorState}, () => {
+        const {secretToken, docId} = this
+
+        const state = convertToRaw(this.state.editorState.getCurrentContent())
+        this.socket.emit('document-save', {userToken: this.props.user._id, secretToken, state, docId})
+      })
+      // this.setState({editorState})
+    }
+
+    // componentWillMount() {
+    //     //checkdb for content using id
+    //
+    //
+    // }
+
+    componentWillUnmount() {
+      this.socket.off('document-update')
+    }
+    componentDidMount() {
         let self = this;
         axios.get('http://localhost:3000/shared',{
         params: {
-            id: docId
+            id: self.props.current.id
         }}).then(function(response) {
             self.props.setCurrentDoc(response.data);
         }).then(function(response) {
@@ -53,29 +73,47 @@ class Main extends React.Component {
                 history: self.props.current.history
             });
         }).catch(function(error) {
-            console.log(error);
+            // console.log(error);
         });
-    }
+        this.socket.emit('join-document', {docId: 'DOC1', userToken: this.props.user._id}, (ack) => {
+          if(!ack) console.error('Error joining document!')
+          self.secretToken = ack.secretToken
+          self.docId = ack.docId
+          if(ack.state) {
+            this.setState({
+              editorState:EditorState.createWithContent(convertFromRaw(ack.state))
+            })
+          }
+        })
 
-    componentDidMount() {
-        const {endpoint} = this.state;
-        const socket = socketIOClient(endpoint);
-        socket.emit('text', {text: "sending you this text data fron the client"});
-        socket.on('text', (data) => this.handleRecievedText(data));
-        socket.on('newUser', (data) => this.updateText(data));
+        this.socket.on('document-update', (update) => {
+          // console.log('gets here')
+          const {state, docId, userToken} = update;
+          // console.log(this.props.user._id, docId, userToken)
+          if(this.props.user._id !== userToken) {
+            this.setState({editorState:EditorState.createWithContent(convertFromRaw(state))})
+          }
+        })
+        // socket.emit('text', {text: "sending you this text data fron the client"});
+        // socket.on('text', (data) => this.handleRecievedText(data));
+        // socket.on('newUser', (data) => this.updateText(data));
     }
 
     //  Replace the editor with the current content of the editor
     // from the web-sockets whenever a new user connects to the socket
-    updateText(data) {
-        this.setState({client: data.text});
-    }
+    // updateText(data) {
+    //     this.setState({client: data.text});
+    // }
+
+
 
     // Called whenever the backend/server sends back a package called ‘text’
     // Updates the text that is found in the editor and is updating the contents of the text object
-    handleRecievedText(data) {
-        this.setState({backend: data.text});
-    }
+    // handleRecievedText(data) {
+    //     this.setState({backend: data, editorState: data});
+    //     // console.log("Getting the following from the backend: " + data.text);
+    //     console.log(data);
+    // }
 
     handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -303,7 +341,7 @@ class Main extends React.Component {
                         </div>
                         <button className="btn btn-xs btn-default" title="custom">Custom</button>
                         <div className="editor">
-                            <Editor customStyleMap={styleMap} editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={this.onChange}/>
+                            <Editor customStyleMap={styleMap} editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={(editorState) => this.onChange(editorState)}/>
                         </div>
                         <p>
                             <button onClick={this.saveDoc.bind(this)} className="btn btn-outline-primary" title="save">Save Changes</button>
