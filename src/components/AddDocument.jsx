@@ -40,32 +40,27 @@ class AddDocument extends React.Component {
     }
 
     render() {
-        return (<div className="container">
-            <div className="row">
-                <div className="col-lg-3 col-md-2"></div>
-                <div className="col-lg-6 col-md-8">
-                    <div className="col-lg-12">
-                        <h5>Create New Document</h5>
+        return (<div>
+                    <div className="col-lg-12 login-title">
+                        CREATE NEW DOCUMENT
                     </div>
-                    <div className="col-lg-12">
-                        <div className="col-lg-12">
+                    <div className="col-lg-12 login-form">
+                        <div className="col-lg-12 login-form">
                             <form onSubmit={this.handleSubmit.bind(this)}>
                                 <div className="form-group">
-                                    <label className="form-control-label">Name:</label>
+                                    <label className="form-control-label">DOC NAME</label>
                                     <input type="text" name="name" className="form-control" value={this.state.name} onChange={this.handleInputChange.bind(this)}/>
                                 </div>
                                 <div className="col-lg-12">
                                     <div className="col-lg-6"></div>
                                     <div className="col-lg-6">
-                                        <button type="submit" className="btn btn-xs btn-default">Create</button>
+                                        <button type="submit" className="btn btn-outline-primary">Create</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div className="col-lg-3 col-md-2"></div>
-                </div>
-            </div>
         </div>);
     }
 }

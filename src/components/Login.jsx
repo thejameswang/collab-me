@@ -45,31 +45,35 @@ class Login extends React.Component {
         return (<div className="container">
             <div className="row">
                 <div className="col-lg-3 col-md-2"></div>
-                <div className="col-lg-6 col-md-8">
-                    <div className="col-lg-12">
-                        COLLAB.ME
+                <div className="col-lg-6 col-md-8 login-box">
+                    <div className="col-lg-12 login-title">
+                        LOGIN
                     </div>
-                    <div className="col-lg-12">
-                        <div className="col-lg-12">
+                    <div className="col-lg-12 login-form">
+                        <div className="col-lg-12 login-form">
                             <form onSubmit={this.handleSubmit.bind(this)}>
                                 <div className="form-group">
-                                    <label className="form-control-label">Username</label>
+                                    <label className="form-control-label">USERNAME</label>
                                     <input type="text" name="username" className="form-control" id="username" onChange={this.handleInputChange.bind(this)} value={this.state.username}/>
                                 </div>
                                 <div className="form-group">
                                     <label className="form-control-label">PASSWORD</label>
                                     <input type="password" name="password" className="form-control" id="password" onChange={this.handleInputChange.bind(this)} value={this.state.password}/>
                                 </div>
+                                <div className="row">
 
-                                <div className="col-lg-12">
-                                    <div className="col-lg-6"></div>
-                                    <div className="col-lg-6">
-                                        <button type="submit" className="btn btn-xs btn-default">LOGIN</button>
+                                    <div className="col-xs-12">
+
+                                        <div className="col-xs-6">
+                                            <button type="submit" className="btn btn-outline-primary">LOGIN</button>
+                                        </div>
+                                        <div className="col-XS-6">
+                                            <Link to="/signup" className="btn btn-outline-secondary">REGISTER</Link>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <Link to="/signup" className="btn btn-xs btn-default">Signup</Link>
                     </div>
                     <div className="col-lg-3 col-md-2"></div>
                 </div>

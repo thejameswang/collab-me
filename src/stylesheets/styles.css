@@ -1,11 +1,26 @@
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,100,300');
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+.container {
+    background: #222D32;
+
+}
 body {
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Roboto', sans-serif;
+    background: #222D32;
+    margin: auto;
     font-size: 16px;
     font-weight: 300;
     line-height: 1.6;
-    color: #494949;
-    background: #eaeaea;
     margin: 5% 0;
+}
+
+.form-control-label {
+    font-size: 10px;
+    color: #6C6C6C;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .align-center {
@@ -109,3 +124,312 @@ p {
 .btn-default:hover {
     background: linear-gradient(#f2f2f2, #e6e6e6);
 }
+
+
+
+
+.login-box {
+    margin-top: 75px;
+    height: auto;
+    background: #1A2226;
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.idea-box {
+    margin-top: 10px;
+    height: auto;
+    background: #EDEDED;
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.login-key {
+    height: 100px;
+    font-size: 80px;
+    line-height: 100px;
+    background: -webkit-linear-gradient(#27EF9F, #0DB8DE);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.login-title {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 30px;
+    letter-spacing: 2px;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #ECF0F5;
+}
+
+.login-form {
+    margin-top: 25px;
+    text-align: left;
+}
+
+input[type=text] {
+    background-color: #1A2226;
+    border: none;
+    border-bottom: 2px solid #0DB8DE;
+    border-top: 0px;
+    border-radius: 0px;
+    font-weight: bold;
+    outline: 0;
+    margin-bottom: 20px;
+    padding-left: 0px;
+    color: #ECF0F5;
+}
+
+input[type=password] {
+    background-color: #1A2226;
+    border: none;
+    border-bottom: 2px solid #0DB8DE;
+    border-top: 0px;
+    border-radius: 0px;
+    font-weight: bold;
+    outline: 0;
+    padding-left: 0px;
+    margin-bottom: 20px;
+    color: #ECF0F5;
+}
+
+.form-group {
+    margin-bottom: 40px;
+    outline: 0px;
+}
+
+.form-control:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-bottom: 2px solid #0DB8DE;
+    outline: 0;
+    background-color: #1A2226;
+    color: #ECF0F5;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 0;
+}
+
+label {
+    margin-bottom: 0px;
+}
+
+
+
+.btn-outline-primary {
+    border-color: #0DB8DE;
+    color: #0DB8DE;
+    border-radius: 0px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.btn-outline-primary:hover {
+    background-color: #0DB8DE;
+    right: 0px;
+}
+
+.login-btm {
+    float: left;
+}
+
+.login-button {
+    padding-right: 0px;
+    text-align: right;
+    margin-bottom: 25px;
+}
+
+.login-text {
+    text-align: left;
+    padding-left: 0px;
+    color: #A2A4A4;
+}
+
+.loginbttm {
+    padding: 0px;
+}
+
+.twitter-card{
+  font-family: Helvetica, Arial, san-serif;
+  display: flex;
+  border: 1px solid #ccc;
+  max-width: 500px;
+  background: #fff;
+  padding: 15px;
+  font-size: 12px;
+  text-decoration: none;
+}
+.twitter-card-image{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.twitter-content-image{
+  width: 100%;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.twitter-card-name{
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+
+.twitter-card-info{
+  text-decoration: none;
+  color: grey;
+}
+
+.twitter-card-tweet{
+  margin-bottom: 5px;
+  color: black;
+}
+
+.twitter-card-content{
+  color: grey;
+}
+
+.twitter-card-hashtag{
+  color: DodgerBlue;
+  text-decoration: none;
+}
+
+.twitter-card-translate{
+  text-decoration: none;
+  color: grey;
+}
+
+.twitter-card-icon{
+  font-size: 16px;
+  text-decoration: none;
+  color: grey;
+  font-weight: bold;
+  position: absolute;
+  right: 25px;
+  padding: 0 5px;
+}
+
+
+	.profile-card{
+		width: 300px;
+		border-radius: 2px;
+		overflow: hidden;
+		box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+		position: relative;
+		margin: auto;
+		background: rgba(255,255,255,1);
+		top: 50%;
+		transform: translateY(-10%);
+	}
+
+	.profile-card header{
+		display: block;
+		position: relative;
+		background: rgba(255,255,255,1);
+		text-align: center;
+		padding: 30px 0 20px;
+		z-index: 1;
+		overflow: hidden;
+	}
+
+	.profile-card header:before{
+		content: "";
+		background: url('http://ali.shahab.pk/blur.php?img=http://ali.shahab.pk/ali-shahab.jpg&x=60') no-repeat;
+		background-size: cover;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;
+		z-index: -1;
+
+	}
+
+	.profile-card header:after{
+		content: "";
+		bottom: -1px;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		background-image: linear-gradient(
+		    to bottom,
+		    rgba(255, 255, 255, 0) 0%,
+		    rgba(255, 255, 255, 1) 100%
+		);
+	}
+
+	.profile-card header img{
+		border-radius: 100%;
+		overflow: hidden;
+		width: 150px;
+		/*border: 1px solid rgba(255,255,255,.5);*/
+		box-shadow: 0 1px 0 rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.1);
+	}
+
+	.profile-card header h1{
+		font-weight: 200;
+		font-size: 42px;
+		color: #444;
+		letter-spacing: -3px;
+		margin: 0;
+		padding: 0;
+	}
+
+	.profile-card header h2{
+		font-weight: 400;
+		font-size: 14px;
+		color: #666;
+		letter-spacing: .5px;
+		margin: 0;
+		padding: 0;
+	}
+
+	.profile-card .profile-bio{
+		padding: 0 30px;
+		text-align: center;
+		color: #888;
+	}
+
+	.profile-card .profile-social-links{
+		display: table;
+		width: 70%;
+		margin: 20px auto;
+	}
+
+	.profile-card .profile-social-links li{
+		display: table-cell;
+		width: 33.3333333333333333%
+	}
+
+	.profile-card .profile-social-links li a{
+		display: block;
+		text-align: center;
+		padding: 10px;
+		margin: 0 10px;
+		border-radius: 100%;
+		-webkit-transition: box-shadow 0.2s;
+		-moz-transition: box-shadow 0.2s;
+		-o-transition: box-shadow 0.2s;
+		transition: box-shadow 0.2s;
+	}
+	.profile-card .profile-social-links li a:hover{
+		box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12),0 1px 1px 0 rgba(0,0,0,.24);
+	}
+
+	.profile-card .profile-social-links li a:active{
+		box-shadow: 0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 2px 4px -1px rgba(0,0,0,.2);
+	}
+
+	.profile-card .profile-social-links li a img{
+		width: 100%;
+		display: block;
+	}

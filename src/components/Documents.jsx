@@ -42,10 +42,16 @@ class Documents extends React.Component {
     render() {
         const {response} = this.state;
         return (<div className="container">
+            <div className="row">
+                <div className="col-lg-3 col-md-2"></div>
+<div className="col-lg-6 col-md-8 login-box">
+    <div className="col-lg-12 login-form">
 
-            <button type="submit" onClick={this.logout.bind(this)} className="btn btn-xs btn-default">Logout</button>
+            <button type="submit" onClick={this.logout.bind(this)} className="btn btn-outline-secondary">Logout</button>
             <AddDocument/>
-            <h5>List of Documents:</h5>
+            <div className="col-lg-12 login-title">
+                LIST OF DOCUMENTS
+            </div>
             <ul>
                 {
                     this.props.documents.length > 0
@@ -54,7 +60,7 @@ class Documents extends React.Component {
                 }
             </ul>
             <ViewShared/>
-        </div>);
+        </div></div></div></div>);
     }
 }
 
