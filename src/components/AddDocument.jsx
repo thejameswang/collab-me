@@ -14,10 +14,6 @@ class AddDocument extends React.Component {
         };
     }
 
-    componentDidMount() {
-        console.log(this.props)
-    }
-
     handleInputChange(event) {
         const state = this.state;
         state[event.target.name] = event.target.value;

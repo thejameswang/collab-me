@@ -6,7 +6,9 @@ import {
     EditorState,
     RichUtils,
     Modifier,
-    ContentState
+    ContentState,
+    CompositeDecorator,
+    generateDecorator
 } from 'draft-js';
 import {Link, Route} from 'react-router-dom';
 import axios from 'axios';
@@ -25,7 +27,8 @@ export default class Main extends React.Component {
             client: '',
             response: false,
             endpoint: "http://10.2.105.66:8000",
-            copied: false
+            copied: false,
+            search: ''
         };
         this.onChange = (editorState) => this.setState({editorState});
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
@@ -115,8 +118,57 @@ export default class Main extends React.Component {
     }
 
     onCopy() {
-  this.setState({copied: true});
-}
+        this.setState({copied: true});
+    }
+
+    handleSearchChange(event) {
+        const state = this.state;
+        let self = this;
+        state[event.target.name] = event.target.value;
+        this.setState(state);
+        this.setState({
+            editorState: EditorState.set(self.state.editorState, {
+                decorator: self.generateDecorator(event.target.value)
+            })
+        });
+
+    }
+    handleSubmit(e) {
+        e.preventDefault();
+    }
+
+    generateDecorator(highlightTerm) {
+        const regex = new RegExp(highlightTerm, 'g');
+        return new CompositeDecorator([
+            {
+                strategy: (contentBlock, callback) => {
+                    if (highlightTerm !== '') {
+                        this.findWithRegex(regex, contentBlock, callback);
+                    }
+                },
+                component: this.SearchHighlight
+            }
+        ])
+    };
+
+    SearchHighlight(props) {
+        return (<span className="search-and-replace-highlight" style={{
+                color: "red"
+            }}>{props.children}</span>)
+    };
+
+    findWithRegex(regex, contentBlock, callback) {
+        const text = contentBlock.getText();
+        let matchArr,
+            start,
+            end;
+        while ((matchArr = regex.exec(text)) !== null) {
+            start = matchArr.index;
+            end = start + matchArr[0].length;
+            callback(start, end);
+        }
+    };
+
     render() {
 
         return (<div className="container">
@@ -131,13 +183,18 @@ export default class Main extends React.Component {
             <div>
                 <h5>Document Name</h5>
                 <p>Shareable ID: {this.props.location.state.current._id}
-                <CopyToClipboard text={this.props.location.state.current._id.toString()}
-                  onCopy={this.onCopy.bind(this)}>
-                 <button className="btn btn-xs btn-default" title="copy">
-                <i className="fa fa-copy"></i>
-                Copy to Clipboard</button>
-               </CopyToClipboard>
-               <div>{this.state.copied ? <span><i>ID Copied.</i></span> : null}</div>
+                    <CopyToClipboard text={this.props.location.state.current._id.toString()} onCopy={this.onCopy.bind(this)}>
+                        <button className="btn btn-xs btn-default" title="copy">
+                            <i className="fa fa-copy"></i>
+                            Copy to Clipboard</button>
+                    </CopyToClipboard>
+                    <div>{
+                            this.state.copied
+                                ? <span>
+                                        <i>ID Copied.</i>
+                                    </span>
+                                : null
+                        }</div>
                 </p>
             </div>
             <div className="container">Client: {this.state.client}</div>
@@ -206,6 +263,29 @@ export default class Main extends React.Component {
             <p>
                 <button onClick={this.saveDoc.bind(this)} className="btn btn-xs btn-default" title="save">Save Changes</button>
             </p>
+            <p>
+                <Link to={{
+                        pathname: '/history',
+                        state: {
+                            current: this.props.location.state.current
+                        }
+                    }} className="btn btn-xs btn-default">View History</Link>
+            </p>
+            <div className="col-lg-12">
+                <div className="col-lg-12">
+                    <form onSubmit={this.handleSubmit.bind(this)}>
+                        <div className="form-group">
+                            <input type="text" name="search" className="form-control" value={this.state.search} onChange={this.handleSearchChange.bind(this)}/>
+                        </div>
+                        <div className="col-lg-12">
+                            <div className="col-lg-6"></div>
+                            <div className="col-lg-6">
+                                <button type="submit" className="btn btn-xs btn-default">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>);
     }
 }

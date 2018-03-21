@@ -17,6 +17,7 @@ export default class App extends React.Component {
                 <Route path="/signup" exact component={Signup}/>
                 <Route path="/documents" exact component={Documents}/>
                 <Route path="/newdocument" exact component={AddDocument}/>
+                <Route path="/history" exact component={history}/>
             </div>
         </HashRouter>);
     }
