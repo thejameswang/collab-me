@@ -54,17 +54,26 @@ export default function databaseAccess(app) {
     });
 
     app.post('/update', (req, res) => {
+        console.log(req.body);
         Document.findOneAndUpdate({ _id: req.body.id },
-            { $set: { "rawContent": req.body.currentContent,
-            "history": req.body.history,
-            "collaborators": req.body.collaborators }})
-            .exec(function(err, doc){
-               if(err) {
-                   res.status(500).send(err);
-               } else {
-                   res.status(200).send(doc);
-               }
-            });
+            { $set: {
+                "rawContent": req.body.currentContent,
+                "history": req.body.history,
+                "collaborators": req.body.collaborators }}, { new: true }, function(err, doc){
+    if(err){
+        console.log("Something wrong when updating data!");
+    }
+
+    console.log(doc);
+});
+            // .exec(function(err, doc){
+            //    if(err) {
+            //        res.status(500).send(err);
+            //    } else {
+            //        console.log(doc);
+            //        res.status(200).send(doc);
+            //    }
+            // });
     });
 
 }
