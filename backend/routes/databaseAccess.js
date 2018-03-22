@@ -2,9 +2,11 @@
 const express = require('express');
 import mongoose from 'mongoose'
 
+//Checks for mongo database environmental variables
 if (!process.env.MONGODB_URI) {
     throw new Error("MONGODB_URI is not in the environmental variables. Try running 'source env.sh'");
 }
+//displays connections
 mongoose.connection.on('connected', function() {
     console.log('Success: connected to MongoDb!');
 });
@@ -48,7 +50,6 @@ export default function databaseAccess(app) {
     });
 
     app.post('/update', (req, res) => {
-        console.log(req.body);
         Document.findOneAndUpdate({
             _id: req.body.id
         }, {

@@ -29,7 +29,7 @@ class Main extends React.Component {
             backend: '',
             client: '',
             response: false,
-            endpoint: "http://10.2.105.66:8000",
+            endpoint: "http://10.2.110.153:8000",
             copied: false,
             search: '',
             history: [],
@@ -81,22 +81,15 @@ class Main extends React.Component {
         }).catch(function(error) {
             // console.log(error);
         });
-    }
-
-    componentDidMount() {
-        this.socket.emit('join-document', {
-            docId: 'DOC1',
-            userToken: this.props.user._id
-        }, (ack) => {
-            if (!ack)
-                console.error('Error joining document!')
-            self.secretToken = ack.secretToken
-            self.docId = ack.docId
-            if (ack.state) {
-                this.setState({
-                    editorState: EditorState.createWithContent(convertFromRaw(ack.state))
-                })
-            }
+        this.socket.emit('join-document', {docId: this.props.current._id , userToken: this.props.user._id}, (ack) => {
+          if(!ack) console.error('Error joining document!')
+          self.secretToken = ack.secretToken
+          self.docId = ack.docId
+          if(ack.state) {
+            this.setState({
+              editorState:EditorState.createWithContent(convertFromRaw(ack.state))
+            })
+          }
         })
 
         this.socket.on('document-update', (update) => {

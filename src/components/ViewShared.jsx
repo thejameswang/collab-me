@@ -37,7 +37,6 @@ class ViewShared extends React.Component {
             console.log(error);
         });
     }
-
     render() {
         return (
             <div className="row">
@@ -68,7 +67,8 @@ class ViewShared extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        user: state.user,
+        current: state.current
     };
 }
 
