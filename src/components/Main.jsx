@@ -18,7 +18,6 @@ import History from './History.jsx';
 import {connect} from 'react-redux';
 import {currentDoc} from '../actions/index.js'
 
-
 class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -44,33 +43,38 @@ class Main extends React.Component {
 
     onChange(editorState) {
 
-      this.setState({editorState}, () => {
-        const {secretToken, docId} = this
+        this.setState({
+            editorState
+        }, () => {
+            const {secretToken, docId} = this
 
-        const state = convertToRaw(this.state.editorState.getCurrentContent())
-        this.socket.emit('document-save', {userToken: this.props.user._id, secretToken, state, docId})
-      })
+            const state = convertToRaw(this.state.editorState.getCurrentContent())
+            this.socket.emit('document-save', {
+                userToken: this.props.user._id,
+                secretToken,
+                state,
+                docId
+            })
+        })
     }
 
     componentWillUnmount() {
-      this.socket.off('document-update')
+        this.socket.off('document-update')
     }
 
     componentWillMount() {
         let self = this;
 
-        this.setState({
-            name: self.props.current.name,
-            id: self.props.current._id
-        })
-
-        axios.get('http://localhost:3000/shared',{
-        params: {
-            id: self.props.current.id
-        }}).then(function(response) {
+        axios.get('http://localhost:3000/shared', {
+            params: {
+                id: self.props.current._id
+            }
+        }).then(function(response) {
             self.props.setCurrentDoc(response.data);
         }).then(function(response) {
             self.setState({
+                name: self.props.current.name,
+                id: self.props.current._id,
                 editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(self.props.current.rawContent))),
                 history: self.props.current.history
             });
@@ -80,24 +84,30 @@ class Main extends React.Component {
     }
 
     componentDidMount() {
-        this.socket.emit('join-document', {docId: 'DOC1', userToken: this.props.user._id}, (ack) => {
-          if(!ack) console.error('Error joining document!')
-          self.secretToken = ack.secretToken
-          self.docId = ack.docId
-          if(ack.state) {
-            this.setState({
-              editorState:EditorState.createWithContent(convertFromRaw(ack.state))
-            })
-          }
+        this.socket.emit('join-document', {
+            docId: 'DOC1',
+            userToken: this.props.user._id
+        }, (ack) => {
+            if (!ack)
+                console.error('Error joining document!')
+            self.secretToken = ack.secretToken
+            self.docId = ack.docId
+            if (ack.state) {
+                this.setState({
+                    editorState: EditorState.createWithContent(convertFromRaw(ack.state))
+                })
+            }
         })
 
         this.socket.on('document-update', (update) => {
-          // console.log('gets here')
-          const {state, docId, userToken} = update;
-          // console.log(this.props.user._id, docId, userToken)
-          if(this.props.user._id !== userToken) {
-            this.setState({editorState:EditorState.createWithContent(convertFromRaw(state))})
-          }
+            // console.log('gets here')
+            const {state, docId, userToken} = update;
+            // console.log(this.props.user._id, docId, userToken)
+            if (this.props.user._id !== userToken) {
+                this.setState({
+                    editorState: EditorState.createWithContent(convertFromRaw(state))
+                })
+            }
         })
 
     }
@@ -148,7 +158,9 @@ class Main extends React.Component {
         let currentHistory;
         let collaborators;
 
-        this.state.history ? currentHistory = this.state.history : currentHistory = []
+        this.state.history
+            ? currentHistory = this.state.history
+            : currentHistory = []
 
         currentHistory.push({
             content: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())).toString(),
@@ -156,7 +168,7 @@ class Main extends React.Component {
             updated_at: new Date()
         })
 
-        if(this.props.current.collaborators) {
+        if (this.props.current.collaborators) {
             collaborators = this.props.current.collaborators;
             collaborators.push(this.props.user._id);
         } else {
@@ -165,7 +177,7 @@ class Main extends React.Component {
         }
 
         axios.post('http://localhost:3000/update', {
-            id:this.props.location.id,
+            id: this.props.current._id,
             currentContent: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())),
             collaborators: collaborators,
             history: currentHistory
@@ -363,14 +375,9 @@ const styleMap = {
     }
 };
 
-
 const mapStateToProps = (state) => {
-    return {
-        current: state.current,
-        user: state.user
-    };
+    return {current: state.current, user: state.user};
 }
-
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -379,7 +386,6 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-
 
 // Promote App from a component to a container
 Main = connect(mapStateToProps, mapDispatchToProps)(Main);

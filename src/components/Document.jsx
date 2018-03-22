@@ -10,7 +10,6 @@ class Document extends React.Component {
         super(props);
     }
 
-
     setDoc() {
         this.props.setCurrentDoc(this.props.doc);
     }
@@ -19,7 +18,7 @@ class Document extends React.Component {
         return (<div className="row">
             <div className="col-lg-12">
                 <p>
-                    <Link to={{ pathname: '/edit', id: this.props.doc._id}} onClick={this.setDoc.bind(this)} className="btn btn-outline-secondary">{this.props.doc.name}</Link>
+                    <Link onClick={this.setDoc.bind(this)} to={{ pathname: '/edit', state: { id:this.props.doc._id}}} className="btn btn-outline-secondary">{this.props.doc.name}</Link>
                 </p>
             </div>
         </div>);

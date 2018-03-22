@@ -24,19 +24,15 @@ class ViewShared extends React.Component {
         e.preventDefault();
         let data;
 
-        console.log("id: " + this.state.docId);
-        console.log("id: " + this.props.user);
-
         let self = this;
         axios.get('http://localhost:3000/shared',{
         params: {
             id: self.state.docId
         }}).then(function(response) {
-            console.log(response);
             self.props.setCurrentDoc(response.data);
             data = response.data;
         }).then(function(response) {
-            self.props.history.push({pathname: '/edit', state: { id: data._id}});
+            self.props.history.push({pathname: '/edit', state: { id:self.state.docId}});
         }).catch(function(error) {
             console.log(error);
         });
@@ -65,7 +61,6 @@ class ViewShared extends React.Component {
                         </div>
                     </div>
                 </div>
-
         );
     }
 }
