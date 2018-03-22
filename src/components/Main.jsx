@@ -1,3 +1,4 @@
+//Imports required npm packages
 import React from 'react';
 import {
     Editor,
@@ -14,14 +15,16 @@ import {Link, Route} from 'react-router-dom';
 import axios from 'axios';
 import socketIOClient from "socket.io-client";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import History from './History.jsx';
 import {connect} from 'react-redux';
+//Requires necessary components
+import History from './History.jsx';
 import {currentDoc} from '../actions/index.js'
 
+//Creates main editor page using draftjs and react
 class Main extends React.Component {
     constructor(props) {
         super(props);
-
+        //Estbalishes required states
         this.state = {
             editorState: EditorState.createEmpty(),
             size: 12,
@@ -36,35 +39,20 @@ class Main extends React.Component {
             name: '',
             id: ''
         };
-
+        //Creates socket connection first to be used throughout the file
         this.socket = socketIOClient(this.state.endpoint);
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
-    onChange(editorState) {
-
-        this.setState({
-            editorState
-        }, () => {
-            const {secretToken, docId} = this
-
-            const state = convertToRaw(this.state.editorState.getCurrentContent())
-            this.socket.emit('document-save', {
-                userToken: this.props.user._id,
-                secretToken,
-                state,
-                docId
-            })
-        })
-    }
-
+    //Ends sockets when learving component
     componentWillUnmount() {
         this.socket.off('document-update')
     }
-
+    //When reaching component actions are established
     componentWillMount() {
         let self = this;
-
+        //Endpoints
+        //Creates share endpoint to save user data
         axios.get('http://localhost:3000/shared', {
             params: {
                 id: self.props.current._id
@@ -81,10 +69,15 @@ class Main extends React.Component {
         }).catch(function(error) {
             // console.log(error);
         });
+
+        //socket endpoints
+
+        //Emits when user joins the document: needs to occur at the start
         this.socket.emit('join-document', {docId: this.props.current._id , userToken: this.props.user._id}, (ack) => {
           if(!ack) console.error('Error joining document!')
           self.secretToken = ack.secretToken
           self.docId = ack.docId
+          //takes state from other sockets if provided
           if(ack.state) {
             this.setState({
               editorState:EditorState.createWithContent(convertFromRaw(ack.state))
@@ -92,17 +85,38 @@ class Main extends React.Component {
           }
         })
 
+        //socket takes update from other users
         this.socket.on('document-update', (update) => {
             const {state, docId, userToken} = update;
+            //confirms you are not yourself else it is an infinite loop
+            //currently there is an issue if you are on two different tabs - meaning no updates
             if (this.props.user._id !== userToken) {
                 this.setState({
                     editorState: EditorState.createWithContent(convertFromRaw(state))
                 })
             }
         })
-
     }
 
+    //Helper functions
+    //
+    //Sends user data for socket users to see real time changes
+    onChange(editorState) {
+        this.setState({
+            editorState
+        }, () => {
+            const {secretToken, docId} = this
+            const state = convertToRaw(this.state.editorState.getCurrentContent())
+            this.socket.emit('document-save', {
+                userToken: this.props.user._id,
+                secretToken,
+                state,
+                docId
+            })
+        })
+    }
+
+    //Updates state with onChange command
     handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
@@ -111,48 +125,54 @@ class Main extends React.Component {
         }
         return 'not-handled';
     }
-
+    //Rich Utils Css updates for text
+    //Bolding Text
     _onBoldClick() {
         this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
     }
+    //Italicizing Text
     _onItalicsClick() {
         this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'));
     }
+    //Underlining Text
     _onUnderlineClick() {
         this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'UNDERLINE'));
     }
+    //Striking through Text
     _onStrikethroughClick() {
         this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'STRIKETHROUGH'));
     }
-    _onLeftAlignClick() {
-        this.onChange(RichUtils.toggleBlockType(this.state.editorState, 'STRIKETHROUGH'));
-    }
+    // Aligning Right Text
     _onRightAlignClick() {
         this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNRIGHT'));
     }
+    // Aligning Left Text
     _onLeftAlignClick() {
         this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNLEFT'));
     }
+    // Aligning Center Text
     _onCenterAlignClick() {
         this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNCENTER'));
     }
 
+    //Handles the Font size and colors of the text
     handleFontSizeChange(event) {
         this.setState({size: event.target.value});
     }
-
     handleFontColorChange(event) {
         this.setState({color: event.target.value});
     }
 
+    //Saves the documents in the database
     saveDoc() {
+        //Creates current History and collaborators
         let currentHistory;
         let collaborators;
 
         this.state.history
             ? currentHistory = this.state.history
             : currentHistory = []
-
+        //Adds the current content at a point of time in the history
         currentHistory.push({
             content: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())).toString(),
             contributor: this.props.user._id,
@@ -182,10 +202,12 @@ class Main extends React.Component {
 
     }
 
+    //Copies sharable ID
     onCopy() {
         this.setState({copied: true});
     }
 
+    //Checks seraching while in the file
     handleSearchChange(event) {
         const state = this.state;
         let self = this;
@@ -232,7 +254,7 @@ class Main extends React.Component {
             callback(start, end);
         }
     };
-
+    //Renders Application HTML
     render() {
         return (<div className="container">
             <div className="row">
@@ -350,6 +372,8 @@ class Main extends React.Component {
     }
 }
 
+
+//Styles for the custom functions created
 const styleMap = {
     'ALIGNRIGHT': {
         textAlign: 'right',
@@ -368,6 +392,7 @@ const styleMap = {
     }
 };
 
+//redux for function and props usage in react
 const mapStateToProps = (state) => {
     return {current: state.current, user: state.user};
 }
@@ -383,4 +408,5 @@ const mapDispatchToProps = (dispatch) => {
 // Promote App from a component to a container
 Main = connect(mapStateToProps, mapDispatchToProps)(Main);
 
+//Exports file
 export default Main;

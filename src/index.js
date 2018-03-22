@@ -1,3 +1,5 @@
+// Importing needed npm packages
+//Electron provided set up
 import { app, BrowserWindow } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { enableLiveReload } from 'electron-compile';
@@ -64,24 +66,3 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-
-// // Checks the env.sh file exists
-// if (!fs.existsSync('./env.sh')) {
-//   throw new Error('env.sh file is missing');
-// }
-//
-// // Sets up app to use Mongoose (with MongoDB)
-// if (!process.env.MONGODB_URI) {
-//   throw new Error("MONGODB_URI is not in the environmental variables. Try running 'source env.sh'");
-// }
-//
-// mongoose.connection.on('connected', function() {
-//   console.log('Success: connected to MongoDb!');
-// });
-//
-// mongoose.connection.on('error', function() {
-//   console.log('Error connecting to MongoDb. Check MONGODB_URI in env.sh');
-//   process.exit(1);
-// });
-//
-// mongoose.connect(process.env.MONGODB_URI);

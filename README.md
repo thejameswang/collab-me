@@ -1,2 +1,2 @@
-# draftnotes
-Draftjs Collaborative Text Editor
+# Collab Me
+A Collaborative Text Editor built with Draftjs

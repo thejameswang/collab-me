@@ -6,20 +6,24 @@ import mongoose from 'mongoose'
 if (!process.env.MONGODB_URI) {
     throw new Error("MONGODB_URI is not in the environmental variables. Try running 'source env.sh'");
 }
-//displays connections
+//displays if connection was successful server-side
 mongoose.connection.on('connected', function() {
     console.log('Success: connected to MongoDb!');
 });
+//displays if connection failed: server-side
 mongoose.connection.on('error', function() {
     console.log('Error connecting to MongoDb. Check MONGODB_URI in env.sh');
     process.exit(1);
 });
 
+//Exports function for all login and registration authenication
 export default function databaseAccess(app) {
     // Set up bodyparser to enable access to POST key values
     // Import models
     var Document = require('../models/Document.js');
     var User = require('../models/User.js');
+
+    //Database endpoints add, share, update, and documents
 
     // Enables the end user to create a new todo item in the database
     app.post('/add', (req, res) => {
@@ -31,8 +35,8 @@ export default function databaseAccess(app) {
             res.send(error);
         })
     });
-
-    app.get('/shared', (req, res) => {
+    //shared endpoint that finds the document to display for initial collaborators
+    app.get('/shared', (req, res) =>{
         Document.findOne({_id: req.query.id}).then(response => {
             res.send(response);
         }).catch(error => {
@@ -56,7 +60,9 @@ export default function databaseAccess(app) {
         })
     });
 
+    //saves document in the database with new history
     app.post('/update', (req, res) => {
+        //Finds the document already created and updates that certain file
         Document.findOneAndUpdate({
             _id: req.body.id
         }, {
@@ -69,6 +75,7 @@ export default function databaseAccess(app) {
             new: true
         }, function(err, doc) {
             if (err) {
+                //happens if document was not found
                 console.log("Something wrong when updating data!");
             } else {
                 res.send(doc);
