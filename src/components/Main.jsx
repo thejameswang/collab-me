@@ -30,38 +30,40 @@ class Main extends React.Component {
             backend: '',
             client: '',
             response: false,
-            endpoint: "http://10.2.110.153:8000",
+            endpoint: "http://10.2.105.66:8000",
             copied: false,
             search: '',
-            history: []
+            history: [],
+            name: '',
+            id: ''
         };
+
         this.socket = socketIOClient(this.state.endpoint);
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
     onChange(editorState) {
-      // let self = this;
-      // console.log('gets here')
+
       this.setState({editorState}, () => {
         const {secretToken, docId} = this
 
         const state = convertToRaw(this.state.editorState.getCurrentContent())
         this.socket.emit('document-save', {userToken: this.props.user._id, secretToken, state, docId})
       })
-      // this.setState({editorState})
     }
-
-    // componentWillMount() {
-    //     //checkdb for content using id
-    //
-    //
-    // }
 
     componentWillUnmount() {
       this.socket.off('document-update')
     }
-    componentDidMount() {
+
+    componentWillMount() {
         let self = this;
+
+        this.setState({
+            name: self.props.current.name,
+            id: self.props.current._id
+        })
+
         axios.get('http://localhost:3000/shared',{
         params: {
             id: self.props.current.id
@@ -75,6 +77,9 @@ class Main extends React.Component {
         }).catch(function(error) {
             // console.log(error);
         });
+    }
+
+    componentDidMount() {
         this.socket.emit('join-document', {docId: 'DOC1', userToken: this.props.user._id}, (ack) => {
           if(!ack) console.error('Error joining document!')
           self.secretToken = ack.secretToken
@@ -94,26 +99,8 @@ class Main extends React.Component {
             this.setState({editorState:EditorState.createWithContent(convertFromRaw(state))})
           }
         })
-        // socket.emit('text', {text: "sending you this text data fron the client"});
-        // socket.on('text', (data) => this.handleRecievedText(data));
-        // socket.on('newUser', (data) => this.updateText(data));
+
     }
-
-    //  Replace the editor with the current content of the editor
-    // from the web-sockets whenever a new user connects to the socket
-    // updateText(data) {
-    //     this.setState({client: data.text});
-    // }
-
-
-
-    // Called whenever the backend/server sends back a package called ‘text’
-    // Updates the text that is found in the editor and is updating the contents of the text object
-    // handleRecievedText(data) {
-    //     this.setState({backend: data, editorState: data});
-    //     // console.log("Getting the following from the backend: " + data.text);
-    //     console.log(data);
-    // }
 
     handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -252,12 +239,12 @@ class Main extends React.Component {
                         }} className="btn btn-outline-secondary">Go Back</Link>
 
                     <div className="col-lg-12 login-title">
-                        {this.props.current.name}
+                        {this.state.name}
                     </div>
                     <div className="col-lg-12 login-form">
                         <div className="col-lg-12 login-form">
-                            <label className="form-control-label">SHAREABLE ID: {this.props.current._id}</label>
-                            <CopyToClipboard text={this.props.current._id} onCopy={this.onCopy.bind(this)}>
+                            <label className="form-control-label">SHAREABLE ID: {this.state.id}</label>
+                            <CopyToClipboard text={this.state.id} onCopy={this.onCopy.bind(this)}>
                                 <button className="btn btn-xs btn-default" title="copy">
                                     <i className="fa fa-copy"></i>
                                     Copy to Clipboard</button>
