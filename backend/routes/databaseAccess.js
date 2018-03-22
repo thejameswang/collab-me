@@ -40,9 +40,16 @@ export default function databaseAccess(app) {
         })
     })
 
-    // Enables the end user to grab all todo items in the database
     app.get('/documents', (req, res) => {
-        Document.find({owner: req.query.id}).then(response => {
+        Document.find({owner: req.query.id}).sort('-date').then(response => {
+            res.send(response);
+        }).catch(error => {
+            res.send(error);
+        })
+    });
+
+    app.get('/collabs', (req, res) => {
+        Document.find({collaborators: req.query.id}).then(response => {
             res.send(response);
         }).catch(error => {
             res.send(error);

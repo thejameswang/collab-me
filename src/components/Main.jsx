@@ -29,7 +29,7 @@ class Main extends React.Component {
             backend: '',
             client: '',
             response: false,
-            endpoint: "http://10.2.110.153:8000",
+            endpoint: "http://10.2.105.66:8000",
             copied: false,
             search: '',
             history: [],

@@ -6,6 +6,12 @@
     background: #222D32;
 
 }
+del{
+    color: red;
+}
+ins {
+    color: green;
+}
 body {
     font-family: 'Roboto', sans-serif;
     background: #222D32;
@@ -14,6 +20,15 @@ body {
     font-weight: 300;
     line-height: 1.6;
     margin: 5% 0;
+}
+.diff-delete {
+    background-color: #fee
+}
+.diff-equal {
+    background-color: #ffe
+}
+.diff-insert {
+    background-color: #efe
 }
 
 .form-control-label {
