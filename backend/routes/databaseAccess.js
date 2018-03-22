@@ -24,17 +24,11 @@ export default function databaseAccess(app) {
     var User = require('../models/User.js');
 
     //Database endpoints add, share, update, and documents
-    
+
     // Enables the end user to create a new todo item in the database
     app.post('/add', (req, res) => {
-        const newDocument = new Document({
-            name: req.body.name,
-            owner: req.body.owner._id,
-            content: req.body.content,
-            rawContent: req.body.rawContent,
-            history: []
-        });
-        //saves new document in database: mongoose
+        const newDocument = new Document({name: req.body.name, owner: req.body.owner._id, content: req.body.content, rawContent: req.body.rawContent, history: []});
+
         newDocument.save().then(response => {
             res.send(response);
         }).catch(error => {
@@ -50,9 +44,16 @@ export default function databaseAccess(app) {
         })
     })
 
-    // Enables the end user to grab all todo items in the database
     app.get('/documents', (req, res) => {
-        Document.find({owner: req.query.id}).then(response => {
+        Document.find({owner: req.query.id}).sort('-date').then(response => {
+            res.send(response);
+        }).catch(error => {
+            res.send(error);
+        })
+    });
+
+    app.get('/collabs', (req, res) => {
+        Document.find({collaborators: req.query.id}).then(response => {
             res.send(response);
         }).catch(error => {
             res.send(error);
@@ -61,18 +62,25 @@ export default function databaseAccess(app) {
 
     //saves document in the database with new history
     app.post('/update', (req, res) => {
-      //Finds the document already created and updates that certain file
-      Document.findOneAndUpdate({ _id: req.body.id },
-          { $set: {
-              "rawContent": req.body.currentContent,
-              "history": req.body.history,
-              "collaborators": req.body.collaborators }}, { new: true }, function(err, doc){
-        if(err) {
-            //happens if document was not found
-            console.log("Something wrong when updating data!");
-        } else {
-          res.send(doc)
-        }
-      });
-  });
+        //Finds the document already created and updates that certain file
+        Document.findOneAndUpdate({
+            _id: req.body.id
+        }, {
+            $set: {
+                "rawContent": req.body.currentContent,
+                "history": req.body.history,
+                "collaborators": req.body.collaborators
+            }
+        }, {
+            new: true
+        }, function(err, doc) {
+            if (err) {
+                //happens if document was not found
+                console.log("Something wrong when updating data!");
+            } else {
+                res.send(doc);
+            }
+        });
+    });
+
 }

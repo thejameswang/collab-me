@@ -32,7 +32,7 @@ class Main extends React.Component {
             backend: '',
             client: '',
             response: false,
-            endpoint: "http://10.2.110.153:8000",
+            endpoint: "http://10.2.105.66:8000",
             copied: false,
             search: '',
             history: [],
@@ -180,8 +180,10 @@ class Main extends React.Component {
         })
 
         if (this.props.current.collaborators) {
-            collaborators = this.props.current.collaborators;
-            collaborators.push(this.props.user._id);
+            if (this.props.current.collaborators.indexOf(this.props.user._id) !== -1) {
+                collaborators = this.props.current.collaborators;
+                collaborators.push(this.props.user._id);
+            }
         } else {
             collaborators = [];
             collaborators.push(this.props.user._id);
