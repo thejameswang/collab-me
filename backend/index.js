@@ -1,8 +1,8 @@
+// Importing needed npm packages
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
-import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import initializeAuth from './routes/auth'
@@ -12,13 +12,18 @@ import User from './models/User';
 import crypto from 'crypto';
 const http = require("http");
 const socketIo = require("socket.io");
+//initializes express
 var app = express();
 
+//initializes bodyparser's required code
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+//connects mongo server using personal database login from environmental source
 mongoose.connect(process.env.MONGODB_URI);
 
+//initializes database routes, connection checks, and connection functions
 databaseAccess(app);
+//creates secure login and registration of users, including local strategies and serializations
 initializeAuth(app, passport);
 socketFile(app);
 

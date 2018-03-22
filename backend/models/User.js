@@ -1,5 +1,10 @@
+//Required Packages
 const mongoose = require('mongoose');
 
+//userSchema
+//Requires a username and password to log in
+//username: trivial DONE
+//password: trivial DONE 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,

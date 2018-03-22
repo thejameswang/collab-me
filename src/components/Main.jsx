@@ -40,11 +40,11 @@ class Main extends React.Component {
     }
 
     onChange(editorState) {
-      // let self = this;
+      let self = this;
       // console.log('gets here')
       this.setState({editorState}, () => {
         const {secretToken, docId} = this
-
+        console.log(self.secretToken)
         const state = convertToRaw(this.state.editorState.getCurrentContent())
         this.socket.emit('document-save', {userToken: this.props.user._id, secretToken, state, docId})
       })
@@ -75,7 +75,7 @@ class Main extends React.Component {
         }).catch(function(error) {
             // console.log(error);
         });
-        this.socket.emit('join-document', {docId: 'DOC1', userToken: this.props.user._id}, (ack) => {
+        this.socket.emit('join-document', {docId: this.props.current._id , userToken: this.props.user._id}, (ack) => {
           if(!ack) console.error('Error joining document!')
           self.secretToken = ack.secretToken
           self.docId = ack.docId

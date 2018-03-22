@@ -21,11 +21,11 @@ class ViewShared extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this.props.user)
+        console.log(this.state.docId, 'here')
         let self = this;
         axios.get('http://localhost:3000/shared',{
         params: {
-            id: self.state.docId,
+            id: this.props.current._id,
             user: this.props.user
         }}).then(function(response) {
             console.log("doc to be worked on : " + response.data.name);
@@ -34,7 +34,6 @@ class ViewShared extends React.Component {
             console.log(error);
         });
     }
-
     render() {
         return (
             <div className="row">
@@ -66,7 +65,8 @@ class ViewShared extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        user: state.user,
+        current: state.current
     };
 }
 

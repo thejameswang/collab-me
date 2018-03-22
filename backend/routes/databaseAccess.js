@@ -2,6 +2,7 @@
 const express = require('express');
 import mongoose from 'mongoose'
 
+//Checks for mongo database environmental variables
 if (!process.env.MONGODB_URI) {
     throw new Error("MONGODB_URI is not in the environmental variables. Try running 'source env.sh'");
 }
