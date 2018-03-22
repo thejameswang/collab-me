@@ -18,7 +18,6 @@ import History from './History.jsx';
 import {connect} from 'react-redux';
 import {currentDoc} from '../actions/index.js'
 
-
 class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -33,42 +32,49 @@ class Main extends React.Component {
             endpoint: "http://10.2.110.153:8000",
             copied: false,
             search: '',
-            history: []
+            history: [],
+            name: '',
+            id: ''
         };
+
         this.socket = socketIOClient(this.state.endpoint);
         this.handleKeyCommand = this.handleKeyCommand.bind(this);
     }
 
     onChange(editorState) {
-      let self = this;
-      // console.log('gets here')
-      this.setState({editorState}, () => {
-        const {secretToken, docId} = this
-        console.log(self.secretToken)
-        const state = convertToRaw(this.state.editorState.getCurrentContent())
-        this.socket.emit('document-save', {userToken: this.props.user._id, secretToken, state, docId})
-      })
-      // this.setState({editorState})
-    }
 
-    // componentWillMount() {
-    //     //checkdb for content using id
-    //
-    //
-    // }
+        this.setState({
+            editorState
+        }, () => {
+            const {secretToken, docId} = this
+
+            const state = convertToRaw(this.state.editorState.getCurrentContent())
+            this.socket.emit('document-save', {
+                userToken: this.props.user._id,
+                secretToken,
+                state,
+                docId
+            })
+        })
+    }
 
     componentWillUnmount() {
-      this.socket.off('document-update')
+        this.socket.off('document-update')
     }
-    componentDidMount() {
+
+    componentWillMount() {
         let self = this;
-        axios.get('http://localhost:3000/shared',{
-        params: {
-            id: self.props.current.id
-        }}).then(function(response) {
+
+        axios.get('http://localhost:3000/shared', {
+            params: {
+                id: self.props.current._id
+            }
+        }).then(function(response) {
             self.props.setCurrentDoc(response.data);
         }).then(function(response) {
             self.setState({
+                name: self.props.current.name,
+                id: self.props.current._id,
                 editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(self.props.current.rawContent))),
                 history: self.props.current.history
             });
@@ -87,33 +93,17 @@ class Main extends React.Component {
         })
 
         this.socket.on('document-update', (update) => {
-          // console.log('gets here')
-          const {state, docId, userToken} = update;
-          // console.log(this.props.user._id, docId, userToken)
-          if(this.props.user._id !== userToken) {
-            this.setState({editorState:EditorState.createWithContent(convertFromRaw(state))})
-          }
+            // console.log('gets here')
+            const {state, docId, userToken} = update;
+            // console.log(this.props.user._id, docId, userToken)
+            if (this.props.user._id !== userToken) {
+                this.setState({
+                    editorState: EditorState.createWithContent(convertFromRaw(state))
+                })
+            }
         })
-        // socket.emit('text', {text: "sending you this text data fron the client"});
-        // socket.on('text', (data) => this.handleRecievedText(data));
-        // socket.on('newUser', (data) => this.updateText(data));
+
     }
-
-    //  Replace the editor with the current content of the editor
-    // from the web-sockets whenever a new user connects to the socket
-    // updateText(data) {
-    //     this.setState({client: data.text});
-    // }
-
-
-
-    // Called whenever the backend/server sends back a package called ‘text’
-    // Updates the text that is found in the editor and is updating the contents of the text object
-    // handleRecievedText(data) {
-    //     this.setState({backend: data, editorState: data});
-    //     // console.log("Getting the following from the backend: " + data.text);
-    //     console.log(data);
-    // }
 
     handleKeyCommand(command, editorState) {
         const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -161,7 +151,9 @@ class Main extends React.Component {
         let currentHistory;
         let collaborators;
 
-        this.state.history ? currentHistory = this.state.history : currentHistory = []
+        this.state.history
+            ? currentHistory = this.state.history
+            : currentHistory = []
 
         currentHistory.push({
             content: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())).toString(),
@@ -169,7 +161,7 @@ class Main extends React.Component {
             updated_at: new Date()
         })
 
-        if(this.props.current.collaborators) {
+        if (this.props.current.collaborators) {
             collaborators = this.props.current.collaborators;
             collaborators.push(this.props.user._id);
         } else {
@@ -178,7 +170,7 @@ class Main extends React.Component {
         }
 
         axios.post('http://localhost:3000/update', {
-            id:this.props.location.id,
+            id: this.props.current._id,
             currentContent: JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())),
             collaborators: collaborators,
             history: currentHistory
@@ -252,12 +244,12 @@ class Main extends React.Component {
                         }} className="btn btn-outline-secondary">Go Back</Link>
 
                     <div className="col-lg-12 login-title">
-                        {this.props.current.name}
+                        {this.state.name}
                     </div>
                     <div className="col-lg-12 login-form">
                         <div className="col-lg-12 login-form">
-                            <label className="form-control-label">SHAREABLE ID: {this.props.current._id}</label>
-                            <CopyToClipboard text={this.props.current._id} onCopy={this.onCopy.bind(this)}>
+                            <label className="form-control-label">SHAREABLE ID: {this.state.id}</label>
+                            <CopyToClipboard text={this.state.id} onCopy={this.onCopy.bind(this)}>
                                 <button className="btn btn-xs btn-default" title="copy">
                                     <i className="fa fa-copy"></i>
                                     Copy to Clipboard</button>
@@ -376,14 +368,9 @@ const styleMap = {
     }
 };
 
-
 const mapStateToProps = (state) => {
-    return {
-        current: state.current,
-        user: state.user
-    };
+    return {current: state.current, user: state.user};
 }
-
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -392,7 +379,6 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-
 
 // Promote App from a component to a container
 Main = connect(mapStateToProps, mapDispatchToProps)(Main);

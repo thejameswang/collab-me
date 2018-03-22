@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {BrowserRouter, withRouter} from 'react-router-dom'
+import {currentDoc} from '../actions/index.js'
 
 const dbUrl = "/db";
 
@@ -21,15 +22,17 @@ class ViewShared extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this.state.docId, 'here')
+        let data;
+
         let self = this;
         axios.get('http://localhost:3000/shared',{
         params: {
-            id: this.props.current._id,
-            user: this.props.user
+            id: self.state.docId
         }}).then(function(response) {
-            console.log("doc to be worked on : " + response.data.name);
-            self.props.history.push({pathname: '/edit', state: { current: response.data }});
+            self.props.setCurrentDoc(response.data);
+            data = response.data;
+        }).then(function(response) {
+            self.props.history.push({pathname: '/edit', state: { id:self.state.docId}});
         }).catch(function(error) {
             console.log(error);
         });
@@ -57,7 +60,6 @@ class ViewShared extends React.Component {
                         </div>
                     </div>
                 </div>
-
         );
     }
 }
@@ -71,7 +73,11 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {}
+    return {
+        setCurrentDoc: (doc) => {
+            dispatch(currentDoc(doc))
+        }
+    }
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewShared))

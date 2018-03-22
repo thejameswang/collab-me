@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 if (!process.env.MONGODB_URI) {
     throw new Error("MONGODB_URI is not in the environmental variables. Try running 'source env.sh'");
 }
+//displays connections
 mongoose.connection.on('connected', function() {
     console.log('Success: connected to MongoDb!');
 });
@@ -55,7 +56,7 @@ export default function databaseAccess(app) {
     });
 
     app.post('/update', (req, res) => {
-        console.log(req.body);
+        // console.log(req.body);
         Document.findOneAndUpdate({ _id: req.body.id },
             { $set: {
                 "rawContent": req.body.currentContent,
@@ -63,9 +64,11 @@ export default function databaseAccess(app) {
                 "collaborators": req.body.collaborators }}, { new: true }, function(err, doc){
     if(err){
         console.log("Something wrong when updating data!");
+    } else {
+      res.send(doc)
     }
 
-    console.log(doc);
+    // console.log(doc);
 });
             // .exec(function(err, doc){
             //    if(err) {
