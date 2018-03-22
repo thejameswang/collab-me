@@ -1,3 +1,4 @@
+// Importing needed npm packages
 import React from 'react';
 import Main from './components/Main.jsx';
 import Documents from './components/Documents.jsx';
@@ -8,9 +9,11 @@ import Signup from './components/Signup.jsx';
 import {HashRouter, Route} from 'react-router-dom';
 import History from './components/History.jsx';
 
+//All components needed while also provoiding routing capabilities
+//Called in index.html script tags
 export default class App extends React.Component {
-
     render() {
+      //While Router was provided, Hashrouter resolves distinct issues in electron
         return (<HashRouter>
             <div>
                 <Route path="/" exact component={Login}/>

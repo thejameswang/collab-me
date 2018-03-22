@@ -1,12 +1,13 @@
+// Importing needed npm packages
 import React from 'react';
 import axios from 'axios';
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux';
+import {setDocuments} from '../actions/index.js'
+import {deleteUser} from '../actions/index.js'
 import Document from './Document.jsx'
 import AddDocument from './AddDocument.jsx'
 import ViewShared from './ViewShared.jsx'
-import {bindActionCreators} from 'redux'
-import {setDocuments} from '../actions/index.js'
-import {deleteUser} from '../actions/index.js'
-import {connect} from 'react-redux';
 
 class Documents extends React.Component {
     constructor(props) {

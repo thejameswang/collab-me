@@ -1,36 +1,43 @@
+// Importing needed npm packages
 import React from 'react';
 import axios from 'axios';
 const dbUrl = "/db";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link, Route} from 'react-router-dom';
+//Imports Document component and redux requirements
 import Documents from './Documents.jsx';
 import {setUser} from '../actions/index'
 
+//Creates login react component
 class Login extends React.Component {
     constructor(props) {
         super(props);
-
+        //establishes loggedIn: boolean, username: String, password:String states
         this.state = {
             loggedIn: false,
             username: '',
             password: ''
         }
     }
-
+    //handles username and password state change binded to inputs
     handleInputChange(event) {
         const state = this.state;
         state[event.target.name] = event.target.value;
         this.setState(state);
     }
-
+    //handles form submit
     handleSubmit(e) {
+        //prevents incorrect continuation
         e.preventDefault();
         let self = this;
+        //creates user
         const user = {
             username: this.state.username,
             password: this.state.password
         }
+        //Sends user data to the backend for validation
+        //Prevents callback hell with axios promise requests
         axios.post('http://localhost:3000/login', user).then(function(response) {
             self.props.getUser(response.data);
         }).then(function(response) {
@@ -40,7 +47,7 @@ class Login extends React.Component {
         });
 
     }
-
+    //Rendering
     render() {
         return (<div className="container">
             <div className="row">
@@ -81,7 +88,7 @@ class Login extends React.Component {
         </div>);
     }
 };
-
+//Redux requirements
 const mapStateToProps = (state) => {
     return {user: state.user};
 }
@@ -96,5 +103,5 @@ const mapDispatchToProps = (dispatch) => {
 
 // Promote App from a component to a container
 Login = connect(mapStateToProps, mapDispatchToProps)(Login);
-
+//Export component
 export default Login;

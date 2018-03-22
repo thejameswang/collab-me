@@ -1,39 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <!--Creates the template of entire project -->
+  <head>
+    <!-- imports bootstrap for css and fonts-->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
+    <!-- Imports custom styling for react components -->
     <link rel="stylesheet" type="text/css" href="./stylesheets/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   </head>
-<body>
-    <div id="App"></div>
-</body>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-<script type="text/jsx">
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {AppContainer} from 'react-hot-loader';
-let store = createStore(reducer);
-import {createStore} from 'redux';
-import {Provider} from 'react-redux';
-import reducer from './reducers/index';
-
-const render = () => {
-    const App = require('./app').default;
-
-    ReactDOM.render(<AppContainer><Provider store={store}><App /></Provider></AppContainer>, document.getElementById('App'));
-}
-
-render();
-if (module.hot) {
-    module.hot.accept(render);
-}
-</script>
-
-
+  <body>
+      <!-- Provides anchor for app js -->
+      <div id="App"></div>
+  </body>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script type="text/jsx">
+    // Importing needed npm packages
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import {AppContainer} from 'react-hot-loader';
+    let store = createStore(reducer);
+    //Establishes Redux in files
+    import {createStore} from 'redux';
+    import {Provider} from 'react-redux';
+    import reducer from './reducers/index';
+    //Renders entire application components and capabilities
+    const render = () => {
+        const App = require('./app').default;
+        ReactDOM.render(<AppContainer><Provider store={store}><App /></Provider></AppContainer>, document.getElementById('App'));
+    }
+    //Allows hot reloading during development
+    render();
+    if (module.hot) {
+        module.hot.accept(render);
+    }
+  </script>
 </html>

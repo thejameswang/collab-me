@@ -25,10 +25,12 @@ mongoose.connect(process.env.MONGODB_URI);
 databaseAccess(app);
 //creates secure login and registration of users, including local strategies and serializations
 initializeAuth(app, passport);
+//Establishes socket capability between users
 socketFile(app);
 
+//Server endpoints
 app.post('/login', passport.authenticate('local'), function(req, res) {
-    // res.json({ success: true, message: "logged in!" });
+    //Finds user in database to return to c,ientside after authentication
     User.findOne({username: req.body.username}).catch(error => {
         res.send(error);
     }).then(response => {
@@ -36,31 +38,26 @@ app.post('/login', passport.authenticate('local'), function(req, res) {
     });
 });
 
+//logs out user
 app.get("/logout", function(req, res) {
     req.logout();
     return res.json({success: true});
 })
 
-//helper functions
-function hashPassword(password) {
-    var hash = crypto.createHash('sha256');
-    hash.update(password);
-    return hash.digest('hex');
-}
-
+//registers users while hashing passwords
 app.post('/register', function(req, res, next) {
-
+    //If user is in the database, doesn't allow to create user
     User.findOne({
         username: req.body.username
     }, function(err, user) {
         // is email address already in use?
         if (user) {
+            //fails to create new user
             res.json({success: false, message: "Email already in use"})
-            // go ahead and create the new user
             return
         } else {
+            //success creates user and hashes their passord
             var hashedPassword = hashPassword(req.body.password);
-
             User.create({
                 username: req.body.username,
                 password: hashedPassword
@@ -75,7 +72,7 @@ app.post('/register', function(req, res, next) {
         }
     })
 })
-
+//checks login session of user
 app.get('/', function(req, res) {
     if (req.user) {
         res.json()
@@ -84,6 +81,14 @@ app.get('/', function(req, res) {
     }
 });
 
+//helper functions
+function hashPassword(password) {
+    //hashes password for registering
+    var hash = crypto.createHash('sha256');
+    hash.update(password);
+    return hash.digest('hex');
+}
 
+//listens on given port or 3000
 console.log('Express started. Listening on port', process.env.PORT || 3000);
 app.listen(process.env.PORT || 3000);
