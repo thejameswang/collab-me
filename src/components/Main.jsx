@@ -100,9 +100,7 @@ class Main extends React.Component {
         })
 
         this.socket.on('document-update', (update) => {
-            // console.log('gets here')
             const {state, docId, userToken} = update;
-            // console.log(this.props.user._id, docId, userToken)
             if (this.props.user._id !== userToken) {
                 this.setState({
                     editorState: EditorState.createWithContent(convertFromRaw(state))
@@ -169,8 +167,10 @@ class Main extends React.Component {
         })
 
         if (this.props.current.collaborators) {
-            collaborators = this.props.current.collaborators;
-            collaborators.push(this.props.user._id);
+            if (this.props.current.collaborators.indexOf(this.props.user._id) !== -1) {
+                collaborators = this.props.current.collaborators;
+                collaborators.push(this.props.user._id);
+            }
         } else {
             collaborators = [];
             collaborators.push(this.props.user._id);
