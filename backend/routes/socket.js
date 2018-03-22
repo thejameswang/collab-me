@@ -34,7 +34,9 @@ export default function socket(app) {
         if(!secretToken) {
           secretToken = sharedDocuments[docId] = docId
         }
-
+        console.log(secretToken, 'secretToken')
+        console.log(docId, 'docId')
+        console.log(userToken, 'userToken')
         cb({secretToken, docId, state: currentState[docId]})
         socket.join(secretToken)
       })
@@ -44,7 +46,7 @@ export default function socket(app) {
         const {secretToken, state, docId, userToken} = message
         // console.log(userToken)
         currentState[docId] = state
-        console.log(secretToken)
+        console.log(secretToken, 'maybe')
         // console.log(docId, userToken)
         // console.log(state)
         io.sockets.in(secretToken).emit('document-update', {state, docId, userToken})
