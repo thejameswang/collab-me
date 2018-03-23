@@ -19,7 +19,7 @@ export default function socket(app) {
     const SALT = process.env.SECRET
     const sharedDocuments = {}
     const currentState = {}
-
+    const allUsers = {}
     // When a user connects to the web socket, we log and emit a newUser event
     // Whenever the client emits a protocol called ‘text’ we handle the text sent
     io.on("connection", socket => {
@@ -36,6 +36,8 @@ export default function socket(app) {
         if(!secretToken) {
           secretToken = sharedDocuments[docId] = docId
         }
+        
+        socket.emit('joinedUser', {userArray: allUsers})
         //sends back documents to the clientside
         cb({secretToken, docId, state: currentState[docId]})
         //joins certain socket: established by secret tokens
@@ -46,11 +48,13 @@ export default function socket(app) {
       socket.on('document-save', function (message) {
         const {secretToken, state, docId, userToken} = message
         currentState[docId] = state
+        console.log('save', docId, secretToken, userToken)
         io.sockets.in(secretToken).emit('document-update', {state, docId, userToken})
       })
 
       // Alerts us if user disconnects
       socket.on("disconnect", () => {
+
         console.log("Client disconnected");
       });
     });

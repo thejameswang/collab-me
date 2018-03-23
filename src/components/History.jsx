@@ -22,7 +22,6 @@ class History extends React.Component {
     }
 
     setHistory(h) {
-
         // If the selected object isnt the most recent, mark it as the selected object
         // Use the diff npm package to find diffs then use the prettyHtml method to convert to HTML
         if (h !== this.state.recentObj) {
@@ -32,7 +31,6 @@ class History extends React.Component {
             var textDiff = diff.main(this.state.recent, this.state.selected); // produces diff array
             this.setState({string: diff.prettyHtml(textDiff)});
         }
-
     }
 
     render() {
