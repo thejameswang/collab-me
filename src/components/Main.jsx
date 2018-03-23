@@ -32,7 +32,7 @@ class Main extends React.Component {
             backend: '',
             client: '',
             response: false,
-            endpoint: "http://10.2.105.66:8000",
+            endpoint: "http://10.2.110.153:8000",
             copied: false,
             search: '',
             history: [],
@@ -46,7 +46,7 @@ class Main extends React.Component {
 
     //Ends sockets when learving component
     componentWillUnmount() {
-        this.socket.off('document-update')
+        this.socket.off('disconnect')
     }
     //When reaching component actions are established
     componentWillMount() {
@@ -69,11 +69,11 @@ class Main extends React.Component {
         }).catch(function(error) {
             // console.log(error);
         });
-
         //socket endpoints
 
         //Emits when user joins the document: needs to occur at the start
         this.socket.emit('join-document', {docId: this.props.current._id , userToken: this.props.user._id}, (ack) => {
+          // console.log(this.props.current._id, this.props.user._id)
           if(!ack) console.error('Error joining document!')
           self.secretToken = ack.secretToken
           self.docId = ack.docId
@@ -106,6 +106,7 @@ class Main extends React.Component {
             editorState
         }, () => {
             const {secretToken, docId} = this
+            console.log(secretToken, docId, 'onChange')
             const state = convertToRaw(this.state.editorState.getCurrentContent())
             this.socket.emit('document-save', {
                 userToken: this.props.user._id,
