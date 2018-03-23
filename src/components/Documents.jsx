@@ -1,10 +1,12 @@
 // Importing needed npm packages
 import React from 'react';
 import axios from 'axios';
+//Imports redux capabilities
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux';
 import {setDocuments} from '../actions/index.js'
 import {deleteUser} from '../actions/index.js'
+//Imports different react components
 import Document from './Document.jsx'
 import AddDocument from './AddDocument.jsx'
 import ViewShared from './ViewShared.jsx'
@@ -14,9 +16,10 @@ class Documents extends React.Component {
         super(props);
         this.state = {};
     }
-
+    //Occurs immediately at component render
     componentWillMount() {
         let self = this;
+        //Loads all documents after login
         axios.get('http://localhost:3000/documents', {
             params: {
                 id: self.props.user._id
@@ -27,7 +30,7 @@ class Documents extends React.Component {
             console.log(error);
         });
     }
-
+    //Logout capabities
     logout() {
         let self = this;
         axios.get('http://localhost:3000/logout').then(function(response) {
@@ -64,13 +67,12 @@ class Documents extends React.Component {
         </div></div></div></div>);
     }
 }
-
+//Redux creation of props and functions
 const mapStateToProps = (state) => {
     return {documents: state.documents,
         user: state.user};
 }
 
-// mapStateToProps is here
 const mapDispatchToProps = (dispatch) => {
     return {
         setDocs: (documents) => {
