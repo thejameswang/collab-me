@@ -1,10 +1,9 @@
+// Importing needed npm packages
 import React from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom'
 import {addDocument} from '../actions/index'
-
-const dbUrl = "/db";
 
 class AddDocument extends React.Component {
     constructor(props) {
@@ -13,17 +12,18 @@ class AddDocument extends React.Component {
             name: ''
         };
     }
-
+    //adds to state after each change
     handleInputChange(event) {
         const state = this.state;
         state[event.target.name] = event.target.value;
         this.setState(state);
     }
-
+    //Adds document with the add endpoint
     handleSubmit(e) {
         e.preventDefault();
         let self = this;
         let newDoc;
+        //Sends document from props of redux
         axios.post('http://localhost:3000/add', {
             name: self.state.name,
             owner: self.props.user,
@@ -64,7 +64,7 @@ class AddDocument extends React.Component {
         </div>);
     }
 }
-
+//Redux creations of props and functions
 const mapStateToProps = (state) => {
     return {documents: state.documents, user: state.user};
 }

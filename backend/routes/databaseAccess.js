@@ -24,7 +24,6 @@ export default function databaseAccess(app) {
     var User = require('../models/User.js');
 
     //Database endpoints add, share, update, and documents
-
     // Enables the end user to create a new todo item in the database
     app.post('/add', (req, res) => {
         const newDocument = new Document({name: req.body.name, owner: req.body.owner._id, content: req.body.content, rawContent: req.body.rawContent, history: []});
@@ -43,7 +42,7 @@ export default function databaseAccess(app) {
             res.send(error);
         })
     })
-
+    //Document endpoint that searches for all documents to be returned per user
     app.get('/documents', (req, res) => {
         Document.find({owner: req.query.id}).sort('-date').then(response => {
             res.send(response);
@@ -51,7 +50,7 @@ export default function databaseAccess(app) {
             res.send(error);
         })
     });
-
+    //Collab endpoint Looks up collaborators 
     app.get('/collabs', (req, res) => {
         Document.find({collaborators: req.query.id}).then(response => {
             res.send(response);
