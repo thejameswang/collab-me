@@ -10,9 +10,9 @@ A Collaborative Text Editor built with Draftjs built on top of [Electron](https:
 ![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 
 
-<img src="https://gph.is/2IORMq7">
+<img src="https://media.giphy.com/media/456Y3VqFanAROyLIr3/giphy.gif">
 
-![GIF](http://recordit.co/aw5jmvVjRn)
+<!-- ![GIF](http://recordit.co/aw5jmvVjRn) -->
 
 <p>
   <a href="#key-features">Key Features</a> •
