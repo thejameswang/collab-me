@@ -20,8 +20,6 @@
       alt="completion">
   <img src="https://img.shields.io/badge/license-MIT-blue.svg"
        alt="license">
-  <img src="https://img.shields.io/badge/draftjs-v0.10.0-blue.svg"
-      alt="draftjs">
 </p>
 
 <p align="center">
