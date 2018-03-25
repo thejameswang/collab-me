@@ -1,21 +1,45 @@
-# Collab Me
-A Collaborative Text Editor built with Draftjs built on top of [Electron](https://electronjs.org/)
+<h1 align="center">
+  Collab Me
+  <br>
+</h1>
 
-![draftjs](https://img.shields.io/badge/draftjs-v0.10.0-blue.svg)
-![electron-forge](https://img.shields.io/badge/electron-v5.1.1-blue.svg)
-![npm](https://img.shields.io/badge/npm-v5.6.0-blue.svg)
-![socket.io](https://img.shields.io/badge/socket.io-v2.0.4-blue.svg)
-![dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
-![completion](https://img.shields.io/badge/completion-70%25-orange.svg)
-![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+<h4 align="center">A Collaborative Text Editor built with Draftjs built on top of <a href="http://electron.atom.io" target="blank">Electron</a>.</h4>
 
-<p>
+<p align="center">
+  <img src="https://img.shields.io/badge/draftjs-v0.10.0-blue.svg"
+       alt="draftjs">
+  <img src="https://img.shields.io/badge/electron-v5.1.1-blue.svg"
+      alt="electron-forge">
+  <img src="https://img.shields.io/badge/npm-v5.6.0-blue.svg"
+       alt="npm">
+  <img src="https://img.shields.io/badge/socket.io-v2.0.4-blue.svg"
+      alt="socket.io">
+  <img src="https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg"
+       alt="dependencies">
+  <img src="https://img.shields.io/badge/completion-70%25-orange.svg"
+      alt="completion">
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg"
+       alt="license">
+  <img src="https://img.shields.io/badge/draftjs-v0.10.0-blue.svg"
+      alt="draftjs">
+</p>
+
+<p align="center">
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#project-goals">Project Goals</a> •
+  <a href="#download">Download</a> •
   <a href="#credits">Credits</a> •
-  <a href="#contributing">Contributing</a>
+  <a href="#related">Related</a> •
+  <a href="#license">License</a>
 </p>
+
+<div align='center'>
+  <img src="docs/gifs/showcase.gif">
+</div>
+<!-- ![GIF](http://recordit.co/aw5jmvVjRn) -->
+
+
+
 
 ----
 
@@ -55,12 +79,21 @@ $ npm start
 $ npm start
 ```
 
+This will get your development environment started
+
 ## Project Goals
 
 1. Create an application using Electron as a basis
 2. As a developer, create a platform for different users to communicate on the cloud.
 3. Using packages and frameworks, Socket.io, Draft.js, Express.js, Node.js, React.js, Redux.js, and Mongoose ODM,
 the goal became to utilize skills to develop a viable product.
+
+## Display
+  Login page
+
+  <img src="docs/screenshots/Login.PNG">
+
+More [screenshots](docs/display.md)
 
 ## Credits
 
@@ -97,3 +130,26 @@ Pull requests are welcome. It may take time for the changes to be implemented, b
 any contributions are appreciated.
 
 Please make sure contributions are up to date with packages.
+
+<!-- <div align='center'>
+# Collab Me
+
+</div>
+
+<p align="center">
+![draftjs](https://img.shields.io/badge/draftjs-v0.10.0-blue.svg)
+![electron-forge](https://img.shields.io/badge/electron-v5.1.1-blue.svg)
+![npm](https://img.shields.io/badge/npm-v5.6.0-blue.svg)
+![socket.io](https://img.shields.io/badge/socket.io-v2.0.4-blue.svg)
+![dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
+![completion](https://img.shields.io/badge/completion-70%25-orange.svg)
+![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+</p>
+
+<p align='center'>
+  <a href="#key-features">Key Features</a> •
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#project-goals">Project Goals</a> •
+  <a href="#credits">Credits</a> •
+  <a href="#contributing">Contributing</a>
+</p>-->

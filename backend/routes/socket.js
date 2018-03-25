@@ -36,7 +36,7 @@ export default function socket(app) {
         if(!secretToken) {
           secretToken = sharedDocuments[docId] = docId
         }
-        
+
         socket.emit('joinedUser', {userArray: allUsers})
         //sends back documents to the clientside
         cb({secretToken, docId, state: currentState[docId]})
@@ -48,7 +48,7 @@ export default function socket(app) {
       socket.on('document-save', function (message) {
         const {secretToken, state, docId, userToken} = message
         currentState[docId] = state
-        console.log('save', docId, secretToken, userToken)
+        // console.log('save', docId, secretToken, userToken)
         io.sockets.in(secretToken).emit('document-update', {state, docId, userToken})
       })
 
