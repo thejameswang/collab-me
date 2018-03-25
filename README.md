@@ -1,6 +1,9 @@
+<div align='center'>
 # Collab Me
 A Collaborative Text Editor built with Draftjs built on top of [Electron](https://electronjs.org/)
+</div>
 
+<p align="center">
 ![draftjs](https://img.shields.io/badge/draftjs-v0.10.0-blue.svg)
 ![electron-forge](https://img.shields.io/badge/electron-v5.1.1-blue.svg)
 ![npm](https://img.shields.io/badge/npm-v5.6.0-blue.svg)
@@ -8,13 +11,15 @@ A Collaborative Text Editor built with Draftjs built on top of [Electron](https:
 ![dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
 ![completion](https://img.shields.io/badge/completion-70%25-orange.svg)
 ![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+</p>
 
 <div align='center'>
   <img src="docs/gifs/showcase.gif">
 </div>
 <!-- ![GIF](http://recordit.co/aw5jmvVjRn) -->
 
-<p>
+
+<p align='center'>
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#project-goals">Project Goals</a> •
