@@ -9,9 +9,9 @@ A Collaborative Text Editor built with Draftjs built on top of [Electron](https:
 ![completion](https://img.shields.io/badge/completion-70%25-orange.svg)
 ![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 
-
-<img src="https://media.giphy.com/media/456Y3VqFanAROyLIr3/giphy.gif">
-
+<div align='center'>
+  <img src="docs/gifs/showcase.gif">
+</div>
 <!-- ![GIF](http://recordit.co/aw5jmvVjRn) -->
 
 <p>
@@ -60,12 +60,21 @@ $ npm start
 $ npm start
 ```
 
+This will get your development environment started
+
 ## Project Goals
 
 1. Create an application using Electron as a basis
 2. As a developer, create a platform for different users to communicate on the cloud.
 3. Using packages and frameworks, Socket.io, Draft.js, Express.js, Node.js, React.js, Redux.js, and Mongoose ODM,
 the goal became to utilize skills to develop a viable product.
+
+## Display
+  Login page
+
+  <img src="docs/screenshots/Login.PNG">
+
+More [screenshots](docs/display.md)
 
 ## Credits
 
