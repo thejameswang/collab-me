@@ -157,6 +157,14 @@ class Main extends React.Component {
         this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ALIGNCENTER'));
     }
 
+    _onUnorderedListClick() {
+      this.onChange(RichUtils.toggleBlockType(this.state.editorState, 'unordered-list-item'));
+    }
+    _onOrderedListClick() {
+      this.onChange(RichUtils.toggleBlockType(this.state.editorState, 'ordered-list-item'));
+    }
+
+
     //Handles the Font size and colors of the text
     handleFontSizeChange(event) {
       // this.setState({size: event.target.value});
@@ -358,10 +366,10 @@ class Main extends React.Component {
                             </button>
                         </div>
                         <div className='btn-group'>
-                            <button className="btn btn-xs btn-default" title="bulleted-list">
+                            <button className="btn btn-xs btn-default" title="bulleted-list" onClick={this._onUnorderedListClick.bind(this)}>
                                 <i className="fa fa-list-ul"></i>
                             </button>
-                            <button className="btn btn-xs btn-default" title="numbered-list">
+                            <button className="btn btn-xs btn-default" title="numbered-list" onClick={this._onOrderedListClick.bind(this)}>
                                 <i className="fa fa-list-ol"></i>
                             </button>
                         </div>
@@ -401,6 +409,11 @@ const styleMap = {
         textAlign: 'center',
         display: 'inline-block',
         width: '100%'
+    },
+    'LIST': {
+      display: 'block',
+      listStyleType: 'none',
+      position: 'relative'
     }
 };
 
