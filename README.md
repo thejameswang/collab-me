@@ -39,13 +39,7 @@
 <!-- ![GIF](http://recordit.co/aw5jmvVjRn) -->
 
 
-<p align='center'>
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#project-goals">Project Goals</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#contributing">Contributing</a>
-</p>
+
 
 ----
 
@@ -150,4 +144,12 @@ Please make sure contributions are up to date with packages.
 ![dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
 ![completion](https://img.shields.io/badge/completion-70%25-orange.svg)
 ![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
-</p> -->
+</p>
+
+<p align='center'>
+  <a href="#key-features">Key Features</a> •
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#project-goals">Project Goals</a> •
+  <a href="#credits">Credits</a> •
+  <a href="#contributing">Contributing</a>
+</p>-->
