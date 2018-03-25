@@ -6,6 +6,7 @@ A Collaborative Text Editor built with Draftjs built on top of [Electron](https:
 ![npm](https://img.shields.io/badge/npm-v5.6.0-blue.svg)
 ![socket.io](https://img.shields.io/badge/socket.io-v2.0.4-blue.svg)
 ![dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)
+![completion](https://img.shields.io/badge/completion-70%25-orange.svg)
 ![MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 
 <p>
@@ -13,9 +14,10 @@ A Collaborative Text Editor built with Draftjs built on top of [Electron](https:
   <a href="#how-to-use">How To Use</a> •
   <a href="#project-goals">Project Goals</a> •
   <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
-  <a href="#license">License</a>
+  <a href="#contributing">Contributing</a>
 </p>
+
+----
 
 ## Key Features
 
@@ -53,12 +55,14 @@ $ npm start
 $ npm start
 ```
 
-#Project Goals
+## Project Goals
 
 1. Create an application using Electron as a basis
 2. As a developer, create a platform for different users to communicate on the cloud.
 3. Using packages and frameworks, Socket.io, Draft.js, Express.js, Node.js, React.js, Redux.js, and Mongoose ODM,
 the goal became to utilize skills to develop a viable product.
+
+## Credits
 
 With these goals in mind, under the hood this project uses, among others:
 
@@ -86,3 +90,10 @@ With these goals in mind, under the hood this project uses, among others:
   Electron version.
 * [Electron Packager](https://github.com/electron-userland/electron-packager):
   Customizes and bundles your Electron app to get it ready for distribution.
+
+## Contributing
+
+Pull requests are welcome. It may take time for the changes to be implemented, but
+any contributions are appreciated.
+
+Please make sure contributions are up to date with packages.
