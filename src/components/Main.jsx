@@ -19,6 +19,7 @@ import {connect} from 'react-redux';
 //Requires necessary components
 import History from './History.jsx';
 import {currentDoc} from '../actions/index.js'
+import createStyles from 'draft-js-custom-styles'
 
 //Creates main editor page using draftjs and react
 class Main extends React.Component {
@@ -32,7 +33,7 @@ class Main extends React.Component {
             backend: '',
             client: '',
             response: false,
-            endpoint: "http://10.2.110.153:8000",
+            endpoint: "http://192.168.1.118:8000",
             copied: false,
             search: '',
             history: [],
@@ -158,10 +159,18 @@ class Main extends React.Component {
 
     //Handles the Font size and colors of the text
     handleFontSizeChange(event) {
-        this.setState({size: event.target.value});
+      // this.setState({size: event.target.value});
+      let self = this;
+      // console.log('change font')
+      const newEditorState = styles.fontSize.toggle(self.state.editorState, event.target.value)
+      // console.log(newEditorState)
+      this.onChange(newEditorState);
     }
+
     handleFontColorChange(event) {
-        this.setState({color: event.target.value});
+      let self = this;
+      const newEditorState = styles.color.toggle(self.state.editorState, event.target.value);
+      this.onChange(newEditorState);
     }
 
     //Saves the documents in the database
@@ -301,6 +310,7 @@ class Main extends React.Component {
                             <div className="dropdown">
                                 <label className="form-control-label">FONT COLOR:</label>
                                 <select value={this.state.value} onChange={this.handleFontColorChange.bind(this)} className="btn btn-xs btn-default dropdown-toggle" name="color">
+                                    <option className="dropdown-item" value="black">Black</option>
                                     <option className="dropdown-item" value="red">Red</option>
                                     <option className="dropdown-item" value="orange">Orange</option>
                                     <option className="dropdown-item" value="yellow">Yellow</option>
@@ -312,6 +322,7 @@ class Main extends React.Component {
                             <div className="dropdown">
                                 <label className="form-control-label">FONT SIZE:</label>
                                 <select value={this.state.value} onChange={this.handleFontSizeChange.bind(this)} className="btn btn-xs btn-default dropdown-toggle" name="color">
+                                    <option className="dropdown-item" value="12">12</option>
                                     <option className="dropdown-item" value="16">16</option>
                                     <option className="dropdown-item" value="18">18</option>
                                     <option className="dropdown-item" value="22">22</option>
@@ -356,7 +367,7 @@ class Main extends React.Component {
                         </div>
                         <button className="btn btn-xs btn-default" title="custom">Custom</button>
                         <div className="editor">
-                            <Editor customStyleMap={styleMap} editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={(editorState) => this.onChange(editorState)}/>
+                            <Editor customStyleMap={styleMap} customStyleFn={customStyleFn} editorState={this.state.editorState} handleKeyCommand={this.handleKeyCommand} onChange={(editorState) => this.onChange(editorState)}/>
                         </div>
                         <p>
                             <button onClick={this.saveDoc.bind(this)} className="btn btn-outline-primary" title="save">Save Changes</button>
@@ -392,6 +403,8 @@ const styleMap = {
         width: '100%'
     }
 };
+
+const { styles, customStyleFn, exporter } = createStyles(['font-size', 'color'], 'PREFIX', styleMap);
 
 //redux for function and props usage in react
 const mapStateToProps = (state) => {
