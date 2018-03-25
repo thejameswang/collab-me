@@ -61,6 +61,7 @@
     "crypto": "^1.0.1",
     "diff": "^3.5.0",
     "draft-js": "^0.10.5",
+    "draft-js-custom-styles": "^2.0.4",
     "draft-js-diff": "^1.0.1",
     "electron-compile": "^6.4.2",
     "electron-devtools-installer": "^2.1.0",
