@@ -25,10 +25,9 @@
 <p align="center">
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
+  <a href="#project-goals">Project Goals</a> •
   <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
-  <a href="#license">License</a>
+  <a href="#contributing">Contributing</a>
 </p>
 
 <div align='center'>
@@ -43,17 +42,19 @@
 
 ## Key Features
 
-* Passport - User Authentication
-  - Hash protected usernames and passport
-* Sync Text Collaborative Editing
+* User authentication using Passport
+  - Hash protected passwords
+  + A user can login and register
+* Real-time text collaboration using Socket.io
   - While you type, socket connection allows for live text sync
-* Document Ownership
-  - Allows for document collaboration while also document ownership
-* Word Search
-* Toolbar for basic Markdown formatting
-* Supports multiple cursors
-* Cross platform
-  - Windows, Mac and Linux ready.
+  + Multiple users can edit a document at the same time
+* Search for words in document 
+  - Similar to Ctrl + F
+  + A user can find a given word in the document via the search bar
+* Toolbar for basic markdown formatting using Draft.js
+  + A user can bold, italicize, underline, strikethrough, align, etc.
+* Cross platform via Electron
+  - Windows, Mac and Linux ready
 
 ## How To Use
 
@@ -81,10 +82,9 @@ This will get your development environment started
 
 ## Project Goals
 
-1. Create an application using Electron as a basis
-2. As a developer, create a platform for different users to communicate on the cloud.
-3. Using packages and frameworks, Socket.io, Draft.js, Express.js, Node.js, React.js, Redux.js, and Mongoose ODM,
-the goal became to utilize skills to develop a viable product.
+1. Create an application using Electron
+2. Create a platform that allows multiple users to collaborate on the go
+3. Use packages and frameworks such as, Socket.io, Draft.js, Express.js, Node.js, React.js, Redux.js, and Mongoose, to develop an MVP.
 
 ## Display
   Login page
